@@ -6,8 +6,8 @@
 
     hardware.url = "github:NixOS/nixos-hardware/master";
 
-    vital-modules.url = "github:nixvital/vital-modules";
-    vital-modules.inputs.nixpkgs.follows = "nixpkgs";
+   # vital-modules.url = "github:nixvital/vital-modules";
+   # vital-modules.inputs.nixpkgs.follows = "nixpkgs";
   };
 
   outputs = { self, nixpkgs, hardware, ... }
