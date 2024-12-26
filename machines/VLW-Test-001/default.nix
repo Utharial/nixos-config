@@ -61,10 +61,10 @@
 
     environment.systemPackages = with pkgs; [
       git
-      docker
+/*       docker
       wget
       vim
-      tmux
+      tmux */
     ];
 
 /*     services.udev.extraHwdb = ''
