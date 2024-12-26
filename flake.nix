@@ -2,7 +2,7 @@
   description = "NixOS Configurations";
 
   inputs = {
-    nixpkgs.url = "github:NixOS/nixpkgs/nixos-24.11";
+    nixpkgs.url = "github:NixOS/nixpkgs/nixos-24.11-small";
 
     hardware.url = "github:NixOS/nixos-hardware/master";
 
@@ -13,7 +13,6 @@
   outputs = { self, nixpkgs, hardware, ... }
   @inputs: {
     nixosConfigurations = {
-
       # As an example here is a nixos configuration for a framework laptop.
       VLW-Test-001 = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
