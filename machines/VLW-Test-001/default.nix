@@ -21,7 +21,7 @@
     # 2. The i3 status bar which requires the backlight tuning
     #
     # And probably something else that I did not notice yet.
-    boot.kernelPackages = pkgs.newLinuxPackages_6_0;
+    #boot.kernelPackages = pkgs.newLinuxPackages_6_0;
 
     # Internationalisation
     i18n.defaultLocale = "en_US.utf8";
