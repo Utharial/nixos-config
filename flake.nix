@@ -2,22 +2,22 @@
   description = "NixOS Configurations";
 
   inputs = {
-    nixpkgs-stable.url = "github:NixOS/nixpkgs/nixos-24.11-small";
+    nixpkgs.url = "github:NixOS/nixpkgs/nixos-24.11-small";
     nixpkgs-unstable.url = "github:nixos/nixpkgs/nixos-unstable";
     hardware.url = "github:NixOS/nixos-hardware/master";
 
     disko = {
       url = "github:nix-community/disko";
-      inputs.nixpkgs.follows = "nixpkgs";
+      inputs.nixpkgs-unstable.follows = "nixpkgs";
     };
 
     lanzaboote = {
       url = "github:nix-community/lanzaboote";
       inputs.nixpkgs.follows = "nixpkgs";
-    }
+    };
   };
 
-  outputs = { self, nixpkgs-stable, nixpkgs-unstable, hardware, disko, ... }
+  outputs = { self, nixpkgs, nixpkgs-unstable, hardware, disko, ... }
   @inputs: 
   let
       inherit (self) outputs;
