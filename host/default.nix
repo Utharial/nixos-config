@@ -8,6 +8,7 @@
   outputs,
   stateVersion,
   username,
+  pkgs,
   ...
 }:
 {
@@ -16,7 +17,6 @@
     [
       (modulesPath + "/installer/scan/not-detected.nix")
       (./. + "/${hostname}/boot.nix")
-      (./. + "/${hostname}/disk.nix")
       (./. + "/${hostname}/hardware.nix")
 
       #./common/base

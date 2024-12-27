@@ -10,11 +10,11 @@ let
   ];
 in
 {
-  environment.etc = {
+/*   environment.etc = {
     "crypttab".text = ''
       data  /dev/disk/by-partlabel/data  /etc/data.keyfile
     '';
-  };
+  }; */
 
   # TODO: Remove this if/when machine is reinstalled.
   # This is a workaround for the legacy -> gpt tables disko format.
@@ -39,16 +39,17 @@ in
           partitions = {
             ESP = {
               start = "0%";
-              end = "512MiB";
+              end = "512M";
               type = "EF00";
               content = {
                 type = "filesystem";
                 format = "vfat";
                 mountpoint = "/boot";
+                mountOptions = [ "umask=0077" ];
               };
             };
             root = {
-              start = "512MiB";
+              start = "512M";
               end = "100%";
               content = {
                 type = "btrfs";
