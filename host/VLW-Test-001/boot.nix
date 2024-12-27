@@ -13,7 +13,6 @@ _: {
     };
 
     kernelModules = [
-      "kvm-intel"
       "vhost_vsock"
     ];
 
@@ -21,6 +20,17 @@ _: {
       sysctl = {
         "fs.inotify.max_user_watches" = 524288;
       };
+    };
+    initrd.systemd.enable = true;
+
+    kernel.sysctl = {
+      "net.ipv4.ip_forward" = 1;
+      "net.ipv6.conf.all.forwarding" = 1;
+    };
+
+    loader = {
+      systemd-boot.enable = true;
+      efi.canTouchEfiVariables = true;
     };
   };
 }

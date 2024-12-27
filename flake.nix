@@ -40,7 +40,7 @@
       # Desktop
       # Headless
       VLW-Test-001 = libx.mkHost {
-        system = "x86_64-linux";
+        hostname = "VLW-Test-001";
       };
 
       # You can define more machines here.
