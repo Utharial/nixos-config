@@ -18,12 +18,28 @@
   };
 
   outputs = { self, nixpkgs, hardware, ... }
-  @inputs: {
+  @inputs: 
+  let
+      inherit (self) outputs;
+      stateVersion = "24.11";
+      username = "ark";
+
+      libx = import ./lib {
+        inherit
+          self
+          inputs
+          outputs
+          stateVersion
+          username
+          ;
+      };
+    in
+    {
     # Create nixosConfiguration for different systems
     nixosConfigurations = {
       # Desktop
       # Headless
-      VLW-Test-001 = lib.mk {
+      VLW-Test-001 = libx.mkHost {
         system = "x86_64-linux";
       };
 
