@@ -18,14 +18,14 @@ in
 
   # TODO: Remove this if/when machine is reinstalled.
   # This is a workaround for the legacy -> gpt tables disko format.
-   fileSystems = {
+/*    fileSystems = {
     "/".device = lib.mkForce "/dev/disk/by-partlabel/root";
     "/boot".device = lib.mkForce "/dev/disk/by-partlabel/ESP";
     "/.snapshots".device = lib.mkForce "/dev/disk/by-partlabel/root";
     "/home".device = lib.mkForce "/dev/disk/by-partlabel/root";
     "/nix".device = lib.mkForce "/dev/disk/by-partlabel/root";
     "/var".device = lib.mkForce "/dev/disk/by-partlabel/root";
-  }; 
+  };  */
 
   disko.devices = {
     disk = {
@@ -59,23 +59,23 @@ in
                 # Override existing partition
                 extraArgs = [ "-f" ];
                 subvolumes = {
-                  "@" = {
+                  "/rootfs" = {
                     mountpoint = "/";
                     mountOptions = defaultBtrfsOpts;
                   };
-                  "@nix" = {
+                  "/nix" = {
                     mountpoint = "/nix";
                     mountOptions = defaultBtrfsOpts;
                   };
-                  "@home" = {
+                  "/home" = {
                     mountpoint = "/home";
                     mountOptions = defaultBtrfsOpts;
                   };
-                  "@var" = {
+                  "/var" = {
                     mountpoint = "/var";
                     mountOptions = defaultBtrfsOpts;
                   };
-                  "@snapshots" = {
+                  "/snapshots" = {
                     mountpoint = "/.snapshots";
                     mountOptions = defaultBtrfsOpts;
                   };
