@@ -29,7 +29,6 @@ in
 
   disko.devices = {
     disk = {
-      # 512GB root/boot drive. Configured with:
       # - A FAT32 ESP partition for systemd-boot
       # - Multiple btrfs subvolumes for the installation of nixos
       sda = {
