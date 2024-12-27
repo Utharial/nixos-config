@@ -16,7 +16,6 @@
     disko
     nixpkgs
     ;
-{
 
   imports =
     [
@@ -75,5 +74,5 @@
 
   system = {
     inherit stateVersion;
-  };
-}
+  }
+
