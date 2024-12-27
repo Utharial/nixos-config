@@ -6,24 +6,25 @@
 
     hardware.url = "github:NixOS/nixos-hardware/master";
 
-   # vital-modules.url = "github:nixvital/vital-modules";
-   # vital-modules.inputs.nixpkgs.follows = "nixpkgs";
+    home-manager.url = "github:nix-community/home-manager/release-24.11";
+    home-manager.inputs.nixpkgs.follows = "nixpkgs";
+
+    disko.url = "github:nix-community/disko";
+    disko.inputs.nixpkgs.follows = "nixpkgs";
+
+    lanzaboote.url = "github:nix-community/lanzaboote";
+    lanzaboote.inputs.nixpkgs.follows = "nixpkgs";
+
   };
 
   outputs = { self, nixpkgs, hardware, ... }
   @inputs: {
+    # Create nixosConfiguration for different systems
     nixosConfigurations = {
-      # As an example here is a nixos configuration for a framework laptop.
-      VLW-Test-001 = nixpkgs.lib.nixosSystem {
+      # Desktop
+      # Headless
+      VLW-Test-001 = lib.mk {
         system = "x86_64-linux";
-        modules = [
-          # Get the community maintained framework baseline
-          #nixos-hardware.nixosModules.framework-12th-gen-intel
-          #vital-modules.nixosModules.foundation
-          #vital-modules.nixosModules.laptop
-          #vital-modules.nixosModules.iphone-connect
-          ./machines/VLW-Test-001
-        ];
       };
 
       # You can define more machines here.
