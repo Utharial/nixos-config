@@ -8,14 +8,9 @@
   outputs,
   stateVersion,
   username,
-  pkgs,
   ...
-}: let
-  inherit
-    (inputs)
-    disko
-    nixpkgs
-    ;
+}: 
+{
 
   imports =
     [
@@ -74,5 +69,5 @@
 
   system = {
     inherit stateVersion;
-  }
-
+  };
+}

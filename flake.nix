@@ -18,7 +18,7 @@
 
   };
 
-  outputs = { self, nixpkgs, hardware, ... }
+  outputs = { self, nixpkgs, unstable, hardware, ... }
   @inputs: 
   let
       inherit (self) outputs;
