@@ -10,7 +10,12 @@
   username,
   pkgs,
   ...
-}:
+}: let
+  inherit
+    (inputs)
+    disko
+    nixpkgs
+    ;
 {
 
   imports =
