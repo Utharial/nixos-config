@@ -1,6 +1,8 @@
-{pkgs, ...}: {
+{pkgs, lib, inputs, ...}: {
 	  imports = [
 	    # Include the results of the hardware scan.
+			inputs.disko.nixosModules.disko
+
       ./disko-setup.nix
 	    (import ./disko-configuration.nix { inherit lib; })
 	    ./hardware-configuration.nix
