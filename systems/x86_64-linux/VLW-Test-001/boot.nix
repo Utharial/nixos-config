@@ -1,5 +1,7 @@
 _: {
   boot = {
+    supportedFilesystems = lib.mkForce ["btrfs"];
+    
     initrd = {
       availableKernelModules = [
         "nvme"

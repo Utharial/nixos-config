@@ -1,7 +1,7 @@
 { inputs, lib, ... }:
 {
   imports = [
-
+    inputs.disko.nixosModules.disko
 
     (import ./disk.nix { inherit lib; })
   ];

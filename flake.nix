@@ -11,6 +11,12 @@
     # NixOS hardware settings
     nixos-hardware.url = "github:NixOS/nixos-hardware/master";
 
+    # Create and format partitions
+    disko = {
+      url = "github:nix-community/disko";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
     # SecureBoot support
     lanzaboote = {
       url = "github:nix-community/lanzaboote";
