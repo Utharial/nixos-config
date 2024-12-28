@@ -15,7 +15,7 @@
   imports =
     [
       (modulesPath + "/installer/scan/not-detected.nix")
-      (./. + "/x86_x64-linux/${hostname}/configuration.nix")
+      (./. + "/x86_64-linux/${hostname}/configuration.nix")
       #(./. + "/x86_x64-linux/${hostname}/hardware.nix")
 
       #./common/base

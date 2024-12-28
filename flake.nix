@@ -19,7 +19,7 @@
       stateVersion = "24.11";
       username = "ark";
 
-      libx = import ./modules/lib {
+      libx = import ./lib {
         inherit
           self
           inputs
