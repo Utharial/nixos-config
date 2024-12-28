@@ -2,29 +2,30 @@
   description = "NixOS Configurations";
 
   inputs = {
-    nixpkgs.url = "github:NixOS/nixpkgs/nixos-24.11-small";
+    # Import the desired Nix channel. Defaults to unstable, which uses a fully tested rolling release model.
+    #   You can find a list of channels at https://wiki.nixos.org/wiki/Channel_branches
+    #   To follow a different channel, replace `nixos-unstable` with the channel name, e.g. `nixos-24.05`.
+    nixpkgs.url = "github:nixos/nixpkgs/nixos-24.11";
     nixpkgs-unstable.url = "github:nixos/nixpkgs/nixos-unstable";
-    hardware.url = "github:NixOS/nixos-hardware/master";
+    
+    # NixOS hardware settings
+    nixos-hardware.url = "github:NixOS/nixos-hardware/master";
 
-    disko = {
-      url = "github:nix-community/disko";
-      inputs.nixpkgs-unstable.follows = "nixpkgs";
-    };
-
+    # SecureBoot support
     lanzaboote = {
       url = "github:nix-community/lanzaboote";
       inputs.nixpkgs.follows = "nixpkgs";
     };
   };
 
-  outputs = { self, nixpkgs, nixpkgs-unstable, hardware, disko, ... }
+  outputs = { self, nixpkgs, hardware, ... }
   @inputs: 
   let
       inherit (self) outputs;
       stateVersion = "24.11";
       username = "ark";
 
-      libx = import ./lib {
+      libx = import ./modules/lib {
         inherit
           self
           inputs
