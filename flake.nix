@@ -12,7 +12,7 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
   };
-  outputs = { self, nixpkgs, nixos-hardware }
+  outputs = { self, nixpkgs, nixos-hardware, ... }
   @ inputs: let
     inherit (self) outputs;
     systems = [
@@ -27,10 +27,10 @@
     packages =
       forAllSystems (system: import ./pkgs nixpkgs.legacyPackages.${system});
     nixosConfigurations = {
-      m3-kratos-vm = nixpkgs.lib.nixosSystem {
+      vlw-test-001 = nixpkgs.lib.nixosSystem {
         specialArgs = {inherit inputs outputs;};
         modules = [
-          ./system/x86-x64-linux/VLW-Test-001
+          ./system/x86_64-linux/vlw-test-001
           inputs.disko.nixosModules.disko
         ];
       };
