@@ -4,7 +4,7 @@
 			inputs.disko.nixosModules.disko
 
       ./disko-setup.nix
-	    (import ./disko-configuration.nix { inherit lib; })
+	    ./disko-configuration.nix
 	    ./hardware-configuration.nix
 	  ];
 	
