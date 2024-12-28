@@ -39,14 +39,6 @@
 
   #closureInfo = pkgs.closureInfo { rootPaths = dependencies; };
   in {
-    environment.etc."install-closure".source = "${closureInfo}/store-paths";
-    environment.systemPackages = [
-      (pkgs.writeShellScriptBin "install-nixos-unattended" ''
-        set -eux
-        # Replace "/dev/disk/by-id/some-disk-id" with your actual disk ID
-        exec ${pkgs.disko}/bin/disko-install --flake "${self}#your-machine" --disk vdb "/dev/disk/by-id/some-disk-id"
-      '')
-  ];
     packages =
       forAllSystems (system: import ./pkgs nixpkgs.legacyPackages.${system});
     nixosConfigurations = {
