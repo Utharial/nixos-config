@@ -1,5 +1,5 @@
 { pkgs, self, hostname, ... }:
-/* let
+let
   dependencies = [
     self.nixosConfigurations.${hostname}.config.system.build.toplevel
     self.nixosConfigurations.${hostname}.config.system.build.diskoScript
@@ -14,10 +14,10 @@
   ] ++ builtins.map (i: i.outPath) (builtins.attrValues self.inputs);
 
   closureInfo = pkgs.closureInfo { rootPaths = dependencies; };
-in */
+in 
 # Now add `closureInfo` to your NixOS installer
 {
-  #environment.etc."install-closure".source = "${closureInfo}/store-paths";
+  environment.etc."install-closure".source = "${closureInfo}/store-paths";
 
   environment.systemPackages = [
     (pkgs.writeShellScriptBin "install-nixos-unattended" ''

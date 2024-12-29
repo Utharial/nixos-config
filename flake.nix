@@ -28,7 +28,26 @@
           username
           ;
       };
+
+      dependencies = [
+            pkgs.stdenv.drvPath
+            self.nixosConfigurations.nixos.config.system.build.toplevel
+            self.nixosConfigurations.nixos.config.system.build.diskoScript
+          ] ++ builtins.map (i: i.outPath) (builtins.attrValues self.inputs);
+
+          closureInfo = pkgs.closureInfo { rootPaths = dependencies; };
   in {
+
+  environment.etc."install-closure".source = "${closureInfo}/store-paths";
+
+  environment.systemPackages = [
+    (pkgs.writeShellScriptBin "install-nixos-unattended" ''
+      set -eux
+      # Replace "/dev/disk/by-id/some-disk-id" with your actual disk ID
+      exec ${pkgs.disko}/bin/disko-install --flake "${self}#${hostname}" --disk my-disk "/dev/sda"
+    '')
+  ];
+
     nixosConfigurations = {
       vlw-test-001 = libx.mkHost {
         hostname = "vlw-test-001";
