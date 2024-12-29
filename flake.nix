@@ -11,6 +11,14 @@
       url = "github:nix-community/disko";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    # Secure boot option with TPM or Yubikey unlock
+    lanzaboote = {
+      url = github:nix-community/lanzaboote/v0.4.1;
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
+
   };
   outputs = { self, nixpkgs, nixos-hardware, ... }
   @ inputs: let

@@ -3,13 +3,14 @@
 	    # Include the results of the hardware scan.
 			inputs.disko.nixosModules.disko
 
+			../../../modules/boot.nix
 	    ./disko-configuration.nix
 	    ./hardware-configuration.nix
 	  ];
 	
 	  # Bootloader.
-	  boot.loader.systemd-boot.enable = true;
-	  boot.loader.efi.canTouchEfiVariables = true;
+	  # boot.loader.systemd-boot.enable = true;
+	  # boot.loader.efi.canTouchEfiVariables = true;
 	
 	  networking.hostName = "vlw-test-001"; # Define your hostname.
 	  # networking.wireless.enable = true; # Enables wireless support via wpa_supplicant.
