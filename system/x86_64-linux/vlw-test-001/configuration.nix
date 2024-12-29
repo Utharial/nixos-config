@@ -3,9 +3,9 @@
 	    # Include the results of the hardware scan.
 			inputs.disko.nixosModules.disko
 
-      #./disko-setup.nix
+      ./disko-setup.nix
 	    ./disko-configuration.nix
-	    ./hardware-configuration.nix
+	    #./hardware-configuration.nix
 	  ];
 	
 	  # Bootloader.

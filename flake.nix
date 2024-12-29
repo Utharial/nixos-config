@@ -36,15 +36,3 @@
     };
   };
 }
-
-{
-  #environment.etc."install-closure".source = "${closureInfo}/store-paths";
-
-  environment.systemPackages = [
-    (pkgs.writeShellScriptBin "install-nixos-unattended" ''
-      set -eux
-      # Replace "/dev/disk/by-id/some-disk-id" with your actual disk ID
-      exec ${pkgs.disko}/bin/disko-install --flake "${self}#${hostname}" --disk my-disk "/dev/sda"
-    '')
-  ];
-}
