@@ -1,7 +1,8 @@
 {
   inputs = {
     # Nix pkg channels
-    nixpkgs.url = "github:NixOs/nixpkgs/nixos-24.11-small";
+    nixpkgs.url = "github:NixOs/nixpkgs/nixos-24.11";
+    nixpkgs-unstable.url = "github:NixOS/nixpkgs/nixos-unstable";
 
     # Nix hardware config
     nixos-hardware.url = "github:NixOS/nixos-hardware/master";
@@ -14,13 +15,13 @@
 
     # Secure boot option with TPM or Yubikey unlock
     lanzaboote = {
-      url = github:nix-community/lanzaboote/v0.4.1;
-      inputs.nixpkgs.follows = "nixpkgs";
+      url = github:nix-community/lanzaboote;
+      inputs.nixpkgs.follows = "nixpkgs-unstable";
     };
 
 
   };
-  outputs = { self, nixpkgs, nixos-hardware, ... }
+  outputs = { self, nixpkgs, nixpkgs-unstable, nixos-hardware, ... }
   @ inputs: let
     inherit (self) outputs;
 
