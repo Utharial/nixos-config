@@ -6,12 +6,6 @@
     # Nix hardware config
     nixos-hardware.url = "github:NixOS/nixos-hardware/master";
 
-    # Disko usage for formating and partition
-    disko = {
-      url = "github:nix-community/disko";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-
     # Secure boot option with TPM or Yubikey unlock
     lanzaboote = {
       url = github:nix-community/lanzaboote;

@@ -4,7 +4,6 @@
 			inputs.disko.nixosModules.disko
 
 			../../../modules/boot.nix
-	    ./disko-configuration.nix
 	    ./hardware-configuration.nix
 	  ];
 	
