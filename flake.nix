@@ -20,7 +20,7 @@
 
 
   };
-  outputs = { self, nixpkgs, nixos-hardware, ... }
+  outputs = { self, nixpkgs, nixos-hardware, lanzaboote, ... }
   @ inputs: let
     inherit (self) outputs;
 
