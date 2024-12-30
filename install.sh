@@ -7,7 +7,7 @@ _warn() { echo -e "\e[33m[-] ${1:-}\e[0m"; }
 # Output red message prefixed with [!] and exit
 _error() { echo -e >&2 "\e[31m[!] ${1:-}\e[0m"; exit 1; }
 
-DISK="${DISK:-}"
+DISK="/dev/sda"
 if [[ -z "$DISK" ]]; then
     _error "Set the DISK environment variable to continue"
 fi
@@ -22,7 +22,7 @@ parted "${DISK}" set 1 boot on
 parted "${DISK}" -s mkpart root 500MiB 100%
 
 _warn "Setting up disk encryption. Confirmation and password entry required"
-root_part="p2"
+root_part="2"
 
 # luksFormat the root partition
 cryptsetup luksFormat "${DISK}${root_part}"
@@ -56,7 +56,7 @@ mount -t btrfs -o subvol=@home,"${btrfs_opts}" "${root_part}" /mnt/home
 mount -t btrfs -o subvol=@var,"${btrfs_opts}" "${root_part}" /mnt/var
 mount -t btrfs -o subvol=@snapshots,"${btrfs_opts}" "${root_part}" /mnt/.snapshots
 
-boot_part="${DISK}p1"
+boot_part="${DISK}1"
 # Format the boot partition
 mkfs.fat -F32 "${boot_part}"
 # Mount the boot partition
