@@ -1,7 +1,7 @@
 {pkgs, lib, inputs, ...}: {
 	  imports = [
 			../../../modules/boot.nix
-	    /mnt/etc/nixos/hardware-configuration.nix
+	    ./etc/nixos/hardware-configuration.nix
 	  ];
 	
 	  # Bootloader.
