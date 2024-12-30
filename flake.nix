@@ -42,6 +42,9 @@
       vlw-test-001 = libx.mkHost {
         hostname = "vlw-test-001";
       };
+      setup-secureboot = nixpkgs.lib.nixosSystem {
+        ./modules/secureboot.nix;
+      };
     };
   };
 }
