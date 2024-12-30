@@ -1,4 +1,9 @@
 {
+
+  fileSystems = {
+    "/boot".device = lib.mkForce "/dev/disk/by-partlabel/ESP";
+  };
+
   disko.devices = {
     disk = {
       main = {
