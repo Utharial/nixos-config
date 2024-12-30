@@ -28,12 +28,12 @@ root_part="2"
 cryptsetup luksFormat "${DISK}${root_part}"
 _warn "Decrypting disk, password entry required"
 # Open the encrypted container
-cryptsetup open "${DISK}${root_part}" cryptlvm
+cryptsetup open "${DISK}${root_part}" crytped
 # Setup LVM physical volumes, volume groups and logical volumes
 _info "Setting up the filesystem"
 
 # Setup the filesystems
-root_part=/dev/mapper/cryptlvm
+root_part=/dev/mapper/crytped
 
 # Format the root partition
 mkfs.btrfs --force "${root_part}"
@@ -57,6 +57,9 @@ boot_part="${DISK}1"
 mkfs.fat -F32 "${boot_part}"
 # Mount the boot partition
 mount -o "defaults,x-mount.mkdir" "${boot_part}" /mnt/boot
+
+# Generate hardware-configuration.nix
+nixos-generate-config --root /mnt
 
 # Run installation from nixOS with #flake
 nixos-install --flake .#vlw-test-001
