@@ -43,7 +43,31 @@
         hostname = "vlw-test-001";
       };
       setup-secureboot = nixpkgs.lib.nixosSystem {
-        ./modules/secureboot.nix;
+        modules = [
+          # This is not a complete NixOS configuration and you need to reference
+          # your normal configuration here.
+
+          lanzaboote.nixosModules.lanzaboote
+
+          ({ pkgs, lib, ... }: {
+
+            environment.systemPackages = [
+              # For debugging and troubleshooting Secure Boot.
+              pkgs.sbctl
+            ];
+
+            # Lanzaboote currently replaces the systemd-boot module.
+            # This setting is usually set to true in configuration.nix
+            # generated at installation time. So we force it to false
+            # for now.
+            boot.loader.systemd-boot.enable = lib.mkForce false;
+
+            boot.lanzaboote = {
+              enable = true;
+              pkiBundle = "/var/lib/sbctl";
+            };
+          })
+        ];
       };
     };
   };
