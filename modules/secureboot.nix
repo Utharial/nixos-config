@@ -1,9 +1,9 @@
-{ pkgs, lib, lanzaboote, ... }: {
-  imports = [ lanzaboote.nixosModules.lanzaboote ];
+{ pkgs, lib, ... }: {
   boot.loader.systemd-boot.enable = lib.mkForce false;
   boot.lanzaboote = {
     enable = true;
-    pkiBundle = "/etc/secureboot";
+    #pkiBundle = "/etc/secureboot";
+    pkiBundle = "/var/lib/sbctl";
   };
   #
   environment.systemPackages = with pkgs; [
