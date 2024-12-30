@@ -1,8 +1,5 @@
 {pkgs, lib, inputs, ...}: {
 	  imports = [
-	    # Include the results of the hardware scan.
-			inputs.disko.nixosModules.disko
-
 			../../../modules/boot.nix
 	    ./hardware-configuration.nix
 	  ];

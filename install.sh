@@ -30,14 +30,10 @@ _warn "Decrypting disk, password entry required"
 # Open the encrypted container
 cryptsetup open "${DISK}${root_part}" cryptlvm
 # Setup LVM physical volumes, volume groups and logical volumes
-_info "Setting up LVM"
-# Create a physical volume
-pvcreate /dev/mapper/cryptlvm
-vgcreate vg /dev/mapper/cryptlvm
-lvcreate -l 100%FREE vg -n root
+_info "Setting up the filesystem"
 
 # Setup the filesystems
-root_part="/dev/vg/root"
+root_part=/dev/mapper/cryptlvm
 
 # Format the root partition
 mkfs.btrfs --force "${root_part}"
