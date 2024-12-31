@@ -59,7 +59,8 @@ mkfs.fat -F32 "${boot_part}"
 mount -o "defaults,x-mount.mkdir" "${boot_part}" /mnt/boot
 
 # Generate hardware-configuration.nix
-nixos-generate-config --root ./system
+nixos-generate-config --root /mnt
+rm /mnt/etc/nixos/configuration.nix
 
 # Run installation from nixOS with #flake
 nixos-install --flake .#vlw-test-001
