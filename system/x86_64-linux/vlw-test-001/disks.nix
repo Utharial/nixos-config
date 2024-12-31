@@ -31,8 +31,8 @@ in
       # 512GB root/boot drive. Configured with:
       # - A FAT32 ESP partition for systemd-boot
       # - Multiple btrfs subvolumes for the installation of nixos
-      nvme0 = {
-        device = "/dev/nvme0n1";
+      main = {
+        device = "/dev/sda";
         type = "disk";
         content = {
           type = "gpt";
@@ -56,9 +56,9 @@ in
                 #passwordFile = "/tmp/secret.key"; # Interactive
                 settings = {
                   allowDiscards = true;
-                  keyFile = "/tmp/secret.key";
+                  keyFile = "/tmp/root.keyfile";
                 };
-                additionalKeyFiles = [ "/tmp/additionalSecret.key" ];
+                #additionalKeyFiles = [ "/tmp/additionalSecret.key" ];
                 content = {
                   type = "btrfs";
                   extraArgs = [ "-f" ];
