@@ -24,9 +24,6 @@ parted "${DISK}" -s mkpart root 500MiB 100%
 _warn "Setting up disk encryption. Confirmation and password entry required"
 root_part="2"
 
-# Enable TPM2 Autounlock fpr crypt setup
-systemd-cryptenroll --tpm2-device=auto --tpm2-pcrs=0+2+7+12 --wipe-slot=tpm2 /dev/sda2
-
 # luksFormat the root partition
 cryptsetup luksFormat "${DISK}${root_part}"
 _warn "Decrypting disk, password entry required"
@@ -34,6 +31,9 @@ _warn "Decrypting disk, password entry required"
 cryptsetup open "${DISK}${root_part}" crytped
 # Setup LVM physical volumes, volume groups and logical volumes
 _info "Setting up the filesystem"
+
+# Enable TPM2 Autounlock fpr crypt setup
+systemd-cryptenroll --wipe-slot=tpm2 /dev/sda2 --tpm2-device=auto --tpm2-pcrs=0+2+7+12 --password
 
 # Setup the filesystems
 root_part=/dev/mapper/crytped
