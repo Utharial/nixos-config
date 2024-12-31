@@ -60,7 +60,7 @@ mount -o "defaults,x-mount.mkdir" "${boot_part}" /mnt/boot
 
 # Generate hardware-configuration.nix
 nixos-generate-config --root /mnt
-cp /mnt/etc/nixos/hardware-configuration.nix /home/nixos/nixos-config/system/x86_64-linux/system/vlw-test-001/hardware-configuration.nix -f
+cp /mnt/etc/nixos/hardware-configuration.nix /home/nixos/nixos-config/system/x86_64-linux/vlw-test-001/hardware-configuration.nix -f
 rm /mnt/etc/nixos/configuration.nix /mnt/etc/nixos/hardware-configuration.nix
 
 # Run installation from nixOS with #flake
