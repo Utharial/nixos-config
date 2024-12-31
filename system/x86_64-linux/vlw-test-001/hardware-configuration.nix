@@ -9,7 +9,10 @@
 	  ...
 	}: {
 	  imports = [
+			inputs.disko.nixosModules.disko
 	    (modulesPath + "/profiles/qemu-guest.nix")
+
+			(import ./disks.nix { inherit lib; })
 	  ];
 	
 	  boot.initrd.availableKernelModules = ["ahci" "xhci_pci" "virtio_pci" "sr_mod" "virtio_blk"];

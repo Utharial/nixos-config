@@ -16,7 +16,7 @@
     [
       (modulesPath + "/installer/scan/not-detected.nix")
       (./. + "/x86_64-linux/${hostname}/configuration.nix")
-      #(./. + "/x86_x64-linux/${hostname}/hardware.nix")
+      (./. + "/x86_x64-linux/${hostname}/hardware-config.nix")
 
       #./common/base
       #./common/users/${username}
