@@ -54,10 +54,10 @@ in
                 name = "crypted";
                 # disable settings.keyFile if you want to use interactive password entry
                 passwordFile = "/tmp/root.keyfile"; # Interactive
-                settings = {
+        /*         settings = {
                   allowDiscards = true;
                   keyFile = "/tmp/root.keyfile";
-                };
+                }; */
                 #additionalKeyFiles = [ "/tmp/additionalSecret.key" ];
                 content = {
                   type = "btrfs";
