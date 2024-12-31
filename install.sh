@@ -33,7 +33,7 @@ cryptsetup open "${DISK}${root_part}" crytped
 _info "Setting up the filesystem"
 
 # Enable TPM2 Autounlock fpr crypt setup
-systemd-cryptenroll --wipe-slot=tpm2 /dev/sda2 --tpm2-device=auto --tpm2-pcrs=0+2+7+12 --password
+systemd-cryptenroll /dev/sda2 --wipe-slot=tpm2 --tpm2-device=auto --tpm2-pcrs=0+2+7+12 --password
 
 # Setup the filesystems
 root_part=/dev/mapper/crytped
