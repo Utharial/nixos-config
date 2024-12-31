@@ -53,11 +53,12 @@ in
                 type = "luks";
                 name = "crypted";
                 # disable settings.keyFile if you want to use interactive password entry
-                passwordFile = "/tmp/root.keyfile"; # Interactive
-        /*         settings = {
+                # passwordFile = "/tmp/root.keyfile"; # Interactive
+                settings = {
                   allowDiscards = true;
                   keyFile = "/tmp/root.keyfile";
-                }; */
+                };
+                initrdUnlock = true;
                 #additionalKeyFiles = [ "/tmp/additionalSecret.key" ];
                 content = {
                   type = "btrfs";
