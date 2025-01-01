@@ -59,7 +59,7 @@ mkfs.fat -F32 "${boot_part}"
 mount -o "defaults,x-mount.mkdir" "${boot_part}" /mnt/boot
 
 # Enable TPM2 Autounlock fpr crypt setup
-systemd-cryptenroll /dev/mapper/crytped --wipe-slot=tpm2 --tpm2-device=auto --tpm2-pcrs=0+2+7+12
+systemd-cryptenroll /dev/sda2 --wipe-slot=tpm2 --tpm2-device=auto --tpm2-pcrs=0+2+7+12
 
 # Generate hardware-configuration.nix and copy to our working directory
 nixos-generate-config --root /mnt

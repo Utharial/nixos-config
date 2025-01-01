@@ -11,6 +11,9 @@
       url = github:nix-community/lanzaboote;
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    disko.url = "github:nix-community/disko";
+    disko.inputs.nixpkgs.follows = "nixpkgs";
   };
   outputs = { self, nixpkgs, nixos-hardware, lanzaboote, ... }
   @ inputs: let
