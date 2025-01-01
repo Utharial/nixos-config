@@ -58,6 +58,9 @@ mkfs.fat -F32 "${boot_part}"
 # Mount the boot partition
 mount -o "defaults,x-mount.mkdir" "${boot_part}" /mnt/boot
 
+# Enable TPM2 Autounlock fpr crypt setup
+systemd-cryptenroll /dev/mapper/crytped --wipe-slot=tpm2 --tpm2-device=auto --tpm2-pcrs=0+2+7+12
+
 # Generate hardware-configuration.nix and copy to our working directory
 nixos-generate-config --root /mnt
 cp /mnt/etc/nixos/hardware-configuration.nix /home/nixos/nixos-config/system/x86_64-linux/vlw-test-001/hardware-configuration.nix -f
@@ -65,6 +68,3 @@ rm /mnt/etc/nixos/configuration.nix /mnt/etc/nixos/hardware-configuration.nix
 
 # Run installation from nixOS with #flake
 nixos-install --flake .#vlw-test-001
-
-# Enable TPM2 Autounlock fpr crypt setup
-systemd-cryptenroll /dev/sda2 --wipe-slot=tpm2 --tpm2-device=auto --tpm2-pcrs=0+2+7+12
