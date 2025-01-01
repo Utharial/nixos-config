@@ -32,9 +32,6 @@ cryptsetup open "${DISK}${root_part}" crytped
 # Setup LVM physical volumes, volume groups and logical volumes
 _info "Setting up the filesystem"
 
-# Enable TPM2 Autounlock fpr crypt setup
-systemd-cryptenroll /dev/sda2 --wipe-slot=tpm2 --tpm2-device=auto --tpm2-pcrs=0+2+7+12 --password
-
 # Setup the filesystems
 root_part=/dev/mapper/crytped
 
@@ -68,3 +65,6 @@ rm /mnt/etc/nixos/configuration.nix /mnt/etc/nixos/hardware-configuration.nix
 
 # Run installation from nixOS with #flake
 nixos-install --flake .#vlw-test-001
+
+# Enable TPM2 Autounlock fpr crypt setup
+systemd-cryptenroll /dev/sda2 --wipe-slot=tpm2 --tpm2-device=auto --tpm2-pcrs=0+2+7+12
