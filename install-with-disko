@@ -48,7 +48,6 @@ if [[ $REPLY =~ ^[Yy]$ ]]; then
     cp /mnt/etc/nixos/hardware-configuration.nix /home/nixos/nixos-config/system/x86_64-linux/vlw-test-001/hardware-configuration.nix -f
     rm /mnt/etc/nixos/configuration.nix /mnt/etc/nixos/hardware-configuration.nix
 
-
     sudo nixos-install --flake ".#${TARGET_HOST}"
 
     # Rsync my nix-config to the target install
