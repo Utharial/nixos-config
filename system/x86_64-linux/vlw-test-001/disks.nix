@@ -1,4 +1,20 @@
+{ lib, ... }:let
+  defaultBtrfsOpts = [
+    "defaults"
+    "compress=zstd:1"
+    "ssd"
+    "noatime"
+    "nodiratime"
+  ];
+in
 {
+  environment.etc = {
+    "crypttab".text = ''
+      root  /dev/disk/by-partlabel/root  /etc/data.keyfile
+    '';
+  };
+
+
   disko.devices = {
     disk = {
       main = {
@@ -29,43 +45,25 @@
                   keyFile = "/tmp/data.keyfile";
                   crypttabExtraOpts = [ "tpm2-device=auto" ];
                 };
-                  content = {
+                content = {
                   type = "btrfs";
-                  extraArgs = [ "-f" ]; # Override existing partition
-                  # Subvolumes must set a mountpoint in order to be mounted,
-                  # unless their parent is mounted
+                  extraArgs = [ "-f" ];
                   subvolumes = {
-                    # Subvolume name is different from mountpoint
-                    "/rootfs" = {
+                    "/root" = {
                       mountpoint = "/";
-                    };
-                    # Subvolume name is the same as the mountpoint
-                    "/home" = {
-                      mountOptions = [ "compress=zstd" ];
-                      mountpoint = "/home";
-                    };
-                    # Parent is not mounted so the mountpoint must be set
-                    "/nix" = {
                       mountOptions = [ "compress=zstd" "noatime" ];
-                      mountpoint = "/nix";
                     };
-                    # Subvolume for the swapfile
+                    "/home" = {
+                      mountpoint = "/home";
+                      mountOptions = [ "compress=zstd" "noatime" ];
+                    };
+                    "/nix" = {
+                      mountpoint = "/nix";
+                      mountOptions = [ "compress=zstd" "noatime" ];
+                    };
                     "/swap" = {
                       mountpoint = "/.swapvol";
-                      swap = {
-                        swapfile.size = "20M";
-                        swapfile2.size = "20M";
-                        swapfile2.path = "rel-path";
-                      };
-                    };
-                  };
-                  mountpoint = "/partition-root";
-                  swap = {
-                    swapfile = {
-                      size = "20M";
-                    };
-                    swapfile1 = {
-                      size = "20M";
+                      swap.swapfile.size = "20M";
                     };
                   };
                 };
