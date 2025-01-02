@@ -36,19 +36,26 @@ echo
 if [[ $REPLY =~ ^[Yy]$ ]]; then
     sudo true
 
-    sudo nix run github:nix-community/disko \
+ #   sudo nix run github:nix-community/disko \
+  #      --extra-experimental-features "nix-command flakes" \
+  #      --no-write-lock-file \
+  #      -- \
+   #     --mode zap_create_mount \
+    #    "system/x86_64-linux/${TARGET_HOST}/disks.nix"
+
+      sudo nix run github:nix-community/latest#disko-install \
         --extra-experimental-features "nix-command flakes" \
         --no-write-lock-file \
         -- \
-        --mode zap_create_mount \
-        "system/x86_64-linux/${TARGET_HOST}/disks.nix"
+        --flake .#${TARGET_HOST} --disk main /dev/sda
+
 
     # Generate hardware-configuration.nix and copy to our working directory
-    nixos-generate-config --root /mnt
-    sudo cp /mnt/etc/nixos/hardware-configuration.nix /home/nixos/nixos-config/system/x86_64-linux/vlw-test-001/hardware-configuration.nix -f
-    sudo rm /mnt/etc/nixos/configuration.nix /mnt/etc/nixos/hardware-configuration.nix
+    #nixos-generate-config --root /mnt
+    #sudo cp /mnt/etc/nixos/hardware-configuration.nix /home/nixos/nixos-config/system/x86_64-linux/vlw-test-001/hardware-configuration.nix -f
+    #sudo rm /mnt/etc/nixos/configuration.nix /mnt/etc/nixos/hardware-configuration.nix
 
-    sudo nixos-install --flake ".#${TARGET_HOST}"
+    #sudo nixos-install --flake ".#${TARGET_HOST}"
 
     # Rsync my nix-config to the target install
     #mkdir -p "/mnt/home/${TARGET_USER}/nixos-config"
