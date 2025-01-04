@@ -1,108 +1,15 @@
 { lib, ... }:
 {
-    fileSystems = {
-    "/".device = lib.mkForce "/dev/disk/by-partlabel/root";
+/*     fileSystems = {
+    "/".device = lib.mkForce "/dev/disk/by-partlabel/disk-main-root";
     "/boot".device = lib.mkForce "/dev/disk/by-partlabel/ESP";
-    "/.snapshots".device = lib.mkForce "/dev/disk/by-partlabel/root";
-    "/home".device = lib.mkForce "/dev/disk/by-partlabel/root";
-    "/nix".device = lib.mkForce "/dev/disk/by-partlabel/root";
-    "/var".device = lib.mkForce "/dev/disk/by-partlabel/root";
-  };
+    "/.snapshots".device = lib.mkForce "/dev/disk/by-partlabel/disk-main-root";
+    "/home".device = lib.mkForce "/dev/disk/by-partlabel/disk-main-root";
+    "/nix".device = lib.mkForce "/dev/disk/by-partlabel/disk-main-root";
+    "/var".device = lib.mkForce "/dev/disk/by-partlabel/disk-main-root";
+  }; */
 
-  disko.devices = {
-    disk = {
-      main = {
-        type = "disk";
-        device = "/dev/sda";
-        content = {
-          type = "gpt";
-          partitions = {
-            ESP = {
-              priority = 1;
-              name = "ESP";
-              start = "1M";
-              end = "128M";
-              type = "EF00";
-              content = {
-                type = "filesystem";
-                format = "vfat";
-                mountpoint = "/boot";
-                mountOptions = [ "umask=0077" ];
-              };
-            };
-            root = {
-              size = "100%";
-              content = {
-                type = "btrfs";
-                extraArgs = [ "-f"
-                              "-LNixOS" # Filesystem label
-                  ]; # Override existing partition
-                  # Subvolumes must set a mountpoint in order to be mounted,
-                  # unless their parent is mounted
-                  subvolumes =
-                    let
-                      commonOptions = [
-                        "compress=zstd"
-                        "noatime"
-                        "nodiscard" # Prefer periodic TRIM
-                      ];
-                    in
-                    {
-                      # Root subvolume
-                      "/@" = {
-                        mountpoint = "/";
-                        mountOptions = commonOptions;
-                      };
-
-                      # Persistent data
-                      "/@persist" = {
-                        mountpoint = "/persist";
-                        mountOptions = commonOptions ++ [
-                          "nodev"
-                          "nosuid"
-                          "noexec"
-                        ];
-                      };
-
-                      # User home directories
-                      "/@home" = {
-                        mountpoint = "/home";
-                        mountOptions = commonOptions ++ [
-                          "nodev"
-                          "nosuid"
-                        ];
-                      };
-
-                      # Nix data, including the store
-                      "/@nix" = {
-                        mountpoint = "/nix";
-                        mountOptions = commonOptions ++ [
-                          "nodev"
-                          "nosuid"
-                        ];
-                      };
-
-                      # System logs
-                      "/@log" = {
-                        mountpoint = "/var/log";
-                        mountOptions = commonOptions ++ [
-                          "nodev"
-                          "nosuid"
-                          "noexec"
-                        ];
-                      };
-                    };
-                };
-              };
-          };
-        };
-      };
-    };
-  };
-}
-
-/* {
-  disko.devices = {
+   disko.devices = {
     disk = {
       nvme0n1 = {
         type = "disk";
@@ -178,4 +85,3 @@
   fileSystems."/persist".neededForBoot = true;
   fileSystems."/var/log".neededForBoot = true;
 }
- */

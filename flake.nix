@@ -1,7 +1,7 @@
 {
   inputs = {
     # Nix pkg channels
-    nixpkgs.url = "github:NixOs/nixpkgs/nixos-24.11";
+    nixpkgs.url = "github:NixOs/nixpkgs/nixos-unstable";
 
     # Nix hardware config
     nixos-hardware.url = "github:NixOS/nixos-hardware/master";
