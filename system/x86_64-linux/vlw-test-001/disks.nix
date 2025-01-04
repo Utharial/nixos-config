@@ -1,15 +1,5 @@
-{ lib, ... }:
 {
-/*     fileSystems = {
-    "/".device = lib.mkForce "/dev/disk/by-partlabel/disk-main-root";
-    "/boot".device = lib.mkForce "/dev/disk/by-partlabel/ESP";
-    "/.snapshots".device = lib.mkForce "/dev/disk/by-partlabel/disk-main-root";
-    "/home".device = lib.mkForce "/dev/disk/by-partlabel/disk-main-root";
-    "/nix".device = lib.mkForce "/dev/disk/by-partlabel/disk-main-root";
-    "/var".device = lib.mkForce "/dev/disk/by-partlabel/disk-main-root";
-  }; */
-
-   disko.devices = {
+  disko.devices = {
     disk = {
       nvme0n1 = {
         type = "disk";
