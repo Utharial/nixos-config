@@ -11,7 +11,7 @@ in
 {
   environment.etc = {
     "crypttab".text = ''
-      data  /dev/disk/by-partlabel/main-disk-root  /tmp/root.keyfile
+      root  /dev/disk/by-partlabel/main-disk-root  /tmp/root.keyfile
     '';
   };
 
@@ -47,61 +47,47 @@ in
                 mountpoint = "/boot";
               };
             };
-            sda = {
-        device = "/dev/sda";
-        type = "disk";
-        content = {
-          type = "gpt";
-          partitions = {
-            data = {
-              start = "0%";
+            root = {
+              start = "512MiB";
               end = "100%";
               content = {
                 type = "luks";
-                name = "data";
-
+                name = "crypted";
                 settings = {
                   # Make sure there is no trailing newline in keyfile if used for interactive unlock.
                   #  Use `echo -n "password" > /tmp/secret.key`
                   keyFile = "/tmp/root.keyfile";
                   allowDiscards = true;
                 };
-
-                # Don't try to unlock this drive early in the boot.
-                initrdUnlock = false;
-
                 content = {
                   type = "btrfs";
                   # Override existing partition
                   extraArgs = [ "-f" ];
                   subvolumes = {
-                  "@" = {
-                    mountpoint = "/";
-                    mountOptions = defaultBtrfsOpts;
+                    "@" = {
+                      mountpoint = "/";
+                      mountOptions = defaultBtrfsOpts;
+                    };
+                    "@nix" = {
+                      mountpoint = "/nix";
+                      mountOptions = defaultBtrfsOpts;
+                    };
+                    "@home" = {
+                      mountpoint = "/home";
+                      mountOptions = defaultBtrfsOpts;
+                    };
+                    "@var" = {
+                      mountpoint = "/var";
+                      mountOptions = defaultBtrfsOpts;
+                    };
+                    "@snapshots" = {
+                      mountpoint = "/.snapshots";
+                      mountOptions = defaultBtrfsOpts;
+                    };
                   };
-                  "@nix" = {
-                    mountpoint = "/nix";
-                    mountOptions = defaultBtrfsOpts;
-                  };
-                  "@home" = {
-                    mountpoint = "/home";
-                    mountOptions = defaultBtrfsOpts;
-                  };
-                  "@var" = {
-                    mountpoint = "/var";
-                    mountOptions = defaultBtrfsOpts;
-                  };
-                  "@snapshots" = {
-                    mountpoint = "/.snapshots";
-                    mountOptions = defaultBtrfsOpts;
-                  };
-                };
                 };
               };
             };
-          };
-        };
-      };
           };
         };
       };
