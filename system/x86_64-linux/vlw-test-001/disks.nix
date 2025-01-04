@@ -1,7 +1,5 @@
-{ bin, ... }:
+{ lib, ... }:
 {
-  
-
     fileSystems = {
     "/".device = lib.mkForce "/dev/disk/by-partlabel/root";
     "/boot".device = lib.mkForce "/dev/disk/by-partlabel/ESP";
