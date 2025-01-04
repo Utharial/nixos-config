@@ -1,4 +1,14 @@
 {
+
+    fileSystems = {
+    "/".device = lib.mkForce "/dev/disk/by-partlabel/root";
+    "/boot".device = lib.mkForce "/dev/disk/by-partlabel/ESP";
+    "/.snapshots".device = lib.mkForce "/dev/disk/by-partlabel/root";
+    "/home".device = lib.mkForce "/dev/disk/by-partlabel/root";
+    "/nix".device = lib.mkForce "/dev/disk/by-partlabel/root";
+    "/var".device = lib.mkForce "/dev/disk/by-partlabel/root";
+  };
+
   disko.devices = {
     disk = {
       main = {

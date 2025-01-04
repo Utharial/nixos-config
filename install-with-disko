@@ -37,18 +37,10 @@ if [[ $REPLY =~ ^[Yy]$ ]]; then
     sudo true
 
  #   sudo nix run github:nix-community/disko \
-  #      --extra-experimental-features "nix-command flakes" \
-  #      --no-write-lock-file \
-  #      -- \
-   #     --mode zap_create_mount \
-    #    "system/x86_64-linux/${TARGET_HOST}/disks.nix"
-
-      sudo nix run github:nix-community/latest#disko-install \
-        --extra-experimental-features "nix-command flakes" \
-        --no-write-lock-file \
-        -- \
-        --flake .#${TARGET_HOST} --disk main /dev/sda
-
+       --extra-experimental-features "nix-command flakes" \
+       -- \
+       --mode zap_create_mount \
+        "system/x86_64-linux/${TARGET_HOST}/disks.nix"
 
     # Generate hardware-configuration.nix and copy to our working directory
     #nixos-generate-config --root /mnt
