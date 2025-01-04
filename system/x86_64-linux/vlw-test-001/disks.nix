@@ -1,61 +1,113 @@
+{ lib, ... }:
+let
+  defaultBtrfsOpts = [
+    "defaults"
+    "compress=zstd:1"
+    "ssd"
+    "noatime"
+    "nodiratime"
+  ];
+in
 {
+  environment.etc = {
+    "crypttab".text = ''
+      data  /dev/disk/by-partlabel/main-disk-root  /tmp/root.keyfile
+    '';
+  };
+
+  # TODO: Remove this if/when machine is reinstalled.
+  # This is a workaround for the legacy -> gpt tables disko format.
+/*   fileSystems = {
+    "/".device = lib.mkForce "/dev/disk/by-partlabel/root";
+    "/boot".device = lib.mkForce "/dev/disk/by-partlabel/ESP";
+    "/.snapshots".device = lib.mkForce "/dev/disk/by-partlabel/root";
+    "/home".device = lib.mkForce "/dev/disk/by-partlabel/root";
+    "/nix".device = lib.mkForce "/dev/disk/by-partlabel/root";
+    "/var".device = lib.mkForce "/dev/disk/by-partlabel/root";
+  }; */
+
   disko.devices = {
     disk = {
-      main = {
+      # 512GB root/boot drive. Configured with:
+      # - A FAT32 ESP partition for systemd-boot
+      # - Multiple btrfs subvolumes for the installation of nixos
+      nvme0 = {
+        device = "/dev/sda";
         type = "disk";
-        device = "/dev/vdb";
         content = {
           type = "gpt";
           partitions = {
             ESP = {
-              size = "512M";
+              start = "0%";
+              end = "512MiB";
               type = "EF00";
               content = {
                 type = "filesystem";
                 format = "vfat";
                 mountpoint = "/boot";
-                mountOptions = [ "umask=0077" ];
               };
             };
-            luks = {
-              size = "100%";
+            sda = {
+        device = "/dev/sda";
+        type = "disk";
+        content = {
+          type = "gpt";
+          partitions = {
+            data = {
+              start = "0%";
+              end = "100%";
               content = {
                 type = "luks";
-                name = "crypted";
-                # disable settings.keyFile if you want to use interactive password entry
-                #passwordFile = "/tmp/secret.key"; # Interactive
+                name = "data";
+
                 settings = {
+                  # Make sure there is no trailing newline in keyfile if used for interactive unlock.
+                  #  Use `echo -n "password" > /tmp/secret.key`
+                  keyFile = "/tmp/root.keyfile";
                   allowDiscards = true;
-                  keyFile = "/tmp/secret.key";
                 };
-                additionalKeyFiles = [ "/tmp/additionalSecret.key" ];
+
+                # Don't try to unlock this drive early in the boot.
+                initrdUnlock = false;
+
                 content = {
                   type = "btrfs";
+                  # Override existing partition
                   extraArgs = [ "-f" ];
                   subvolumes = {
-                    "/root" = {
-                      mountpoint = "/";
-                      mountOptions = [ "compress=zstd" "noatime" ];
-                    };
-                    "/home" = {
-                      mountpoint = "/home";
-                      mountOptions = [ "compress=zstd" "noatime" ];
-                    };
-                    "/nix" = {
-                      mountpoint = "/nix";
-                      mountOptions = [ "compress=zstd" "noatime" ];
-                    };
-                    "/swap" = {
-                      mountpoint = "/.swapvol";
-                      swap.swapfile.size = "20M";
-                    };
+                  "@" = {
+                    mountpoint = "/";
+                    mountOptions = defaultBtrfsOpts;
                   };
+                  "@nix" = {
+                    mountpoint = "/nix";
+                    mountOptions = defaultBtrfsOpts;
+                  };
+                  "@home" = {
+                    mountpoint = "/home";
+                    mountOptions = defaultBtrfsOpts;
+                  };
+                  "@var" = {
+                    mountpoint = "/var";
+                    mountOptions = defaultBtrfsOpts;
+                  };
+                  "@snapshots" = {
+                    mountpoint = "/.snapshots";
+                    mountOptions = defaultBtrfsOpts;
+                  };
+                };
                 };
               };
             };
           };
         };
       };
+          };
+        };
+      };
+
+      # 4TB data drive. LUKS encrypted with single btrfs subvolume.
+      
     };
   };
 }
