@@ -1,88 +1,52 @@
-{ lib, ... }:
-let
-  defaultBtrfsOpts = [
-    "defaults"
-    "compress=zstd:1"
-    "ssd"
-    "noatime"
-    "nodiratime"
-  ];
-in
 {
-  environment.etc = {
-    "crypttab".text = ''
-      root  /dev/disk/by-partlabel/main-disk-root  /tmp/root.keyfile
-    '';
-  };
-
-  # TODO: Remove this if/when machine is reinstalled.
-  # This is a workaround for the legacy -> gpt tables disko format.
-/*   fileSystems = {
-    "/".device = lib.mkForce "/dev/disk/by-partlabel/root";
-    "/boot".device = lib.mkForce "/dev/disk/by-partlabel/ESP";
-    "/.snapshots".device = lib.mkForce "/dev/disk/by-partlabel/root";
-    "/home".device = lib.mkForce "/dev/disk/by-partlabel/root";
-    "/nix".device = lib.mkForce "/dev/disk/by-partlabel/root";
-    "/var".device = lib.mkForce "/dev/disk/by-partlabel/root";
-  }; */
-
   disko.devices = {
     disk = {
-      # 512GB root/boot drive. Configured with:
-      # - A FAT32 ESP partition for systemd-boot
-      # - Multiple btrfs subvolumes for the installation of nixos
-      nvme0 = {
-        device = "/dev/sda";
+      main = {
         type = "disk";
+        device = "/dev/sda";
         content = {
           type = "gpt";
           partitions = {
             ESP = {
-              start = "0%";
-              end = "512MiB";
+              size = "512M";
               type = "EF00";
               content = {
                 type = "filesystem";
                 format = "vfat";
                 mountpoint = "/boot";
+                mountOptions = [ "umask=0077" ];
               };
             };
-            root = {
-              start = "512MiB";
-              end = "100%";
+            luks = {
+              size = "100%";
               content = {
                 type = "luks";
                 name = "crypted";
+                # disable settings.keyFile if you want to use interactive password entry
+                #passwordFile = "/tmp/secret.key"; # Interactive
                 settings = {
-                  # Make sure there is no trailing newline in keyfile if used for interactive unlock.
-                  #  Use `echo -n "password" > /tmp/secret.key`
-                  keyFile = "/tmp/root.keyfile";
                   allowDiscards = true;
+                  keyFile = "/tmp/root.keyfile";
                 };
                 content = {
                   type = "btrfs";
-                  # Override existing partition
                   extraArgs = [ "-f" ];
                   subvolumes = {
                     "@" = {
                       mountpoint = "/";
-                      mountOptions = defaultBtrfsOpts;
-                    };
-                    "@nix" = {
-                      mountpoint = "/nix";
-                      mountOptions = defaultBtrfsOpts;
+                      mountOptions = [ "compress=zstd" "noatime" ];
                     };
                     "@home" = {
                       mountpoint = "/home";
-                      mountOptions = defaultBtrfsOpts;
+                      mountOptions = [ "compress=zstd" "noatime" ];
                     };
-                    "@var" = {
-                      mountpoint = "/var";
-                      mountOptions = defaultBtrfsOpts;
+                    "@nix" = {
+                      mountpoint = "/nix";
+                      mountOptions = [ "compress=zstd" "noatime" ];
                     };
-                    "@snapshots" = {
-                      mountpoint = "/.snapshots";
-                      mountOptions = defaultBtrfsOpts;
+                    "@swap" = {
+                      mountpoint = "/.swapvol";
+                      swap.swapfile.size = "20M";
                     };
                   };
                 };
@@ -91,9 +55,6 @@ in
           };
         };
       };
-
-      # 4TB data drive. LUKS encrypted with single btrfs subvolume.
-      
     };
   };
 }
