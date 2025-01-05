@@ -36,13 +36,11 @@ echo
 if [[ $REPLY =~ ^[Yy]$ ]]; then
     sudo true
 
-    #sudo nix run github:nix-community/disko \
-    #   --experimental-features "nix-command flakes" \
-    #   -- \
-    #   --mode zap_create_mount \
-    #    "system/x86_64-linux/${TARGET_HOST}/disks.nix"
-
-    sudo nix --experimental-features "nix-command flakes" run github:nix-community/disko "system/x86_64-linux/${TARGET_HOST}/disks.nix"
+    sudo nix run github:nix-community/disko \
+       --experimental-features "nix-command flakes" \
+       -- \
+       --mode zap_create_mount \
+        "system/x86_64-linux/${TARGET_HOST}/disks.nix"
 
     # Generate hardware-configuration.nix and copy to our working directory
     sudo nixos-generate-config --root /mnt
