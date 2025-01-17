@@ -69,5 +69,23 @@
         #];
       #}; */
     };
+    # Custom packages; acessible via 'nix build', 'nix shell', etc
+      packages = libx.forAllSystems (
+        system:
+        let
+          pkgs = unstable.legacyPackages.${system};
+        in
+        import ./pkgs { inherit pkgs; }
+      );
+
+      # Devshell for bootstrapping
+      # Accessible via 'nix develop' or 'nix-shell' (legacy)
+      devShells = libx.forAllSystems (
+        system:
+        let
+          pkgs = unstable.legacyPackages.${system};
+        in
+        import ./shell.nix { inherit pkgs; }
+      );
   };
 }
