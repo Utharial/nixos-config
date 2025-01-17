@@ -38,7 +38,7 @@
         hostname = "vlw-test-001";
         environment.systemPackages = [
               # For debugging and troubleshooting Secure Boot.
-              pkgs.sbctl
+              nixpkgs.sbctl
             ];
       };
       /* setup-secureboot = nixpkgs.lib.nixosSystem {
@@ -73,7 +73,7 @@
       packages = libx.forAllSystems (
         system:
         let
-          pkgs = unstable.legacyPackages.${system};
+          pkgs = nixpkgs.legacyPackages.${system};
         in
         import ./pkgs { inherit pkgs; }
       );
@@ -83,7 +83,7 @@
       devShells = libx.forAllSystems (
         system:
         let
-          pkgs = unstable.legacyPackages.${system};
+          pkgs = nixpkgs.legacyPackages.${system};
         in
         import ./shell.nix { inherit pkgs; }
       );
