@@ -7,15 +7,15 @@
     nixos-hardware.url = "github:NixOS/nixos-hardware/master";
 
     # Secure boot option with TPM or Yubikey unlock
-    lanzaboote = {
+/*     lanzaboote = {
       url = github:nix-community/lanzaboote;
       inputs.nixpkgs.follows = "nixpkgs";
-    };
+    }; */
 
     disko.url = "github:nix-community/disko";
     disko.inputs.nixpkgs.follows = "nixpkgs";
   };
-  outputs = { self, nixpkgs, nixos-hardware, lanzaboote, ... }
+  outputs = { self, nixpkgs, nixos-hardware, ... }
   @ inputs: let
     inherit (self) outputs;
 
@@ -42,7 +42,7 @@
           # This is not a complete NixOS configuration and you need to reference
           # your normal configuration here.
 
-          lanzaboote.nixosModules.lanzaboote
+          #lanzaboote.nixosModules.lanzaboote
 
           ({ pkgs, lib, ... }: {
 
@@ -57,10 +57,10 @@
             # for now.
             boot.loader.systemd-boot.enable = lib.mkForce false;
 
-            boot.lanzaboote = {
+            /* boot.lanzaboote = {
               enable = true;
               pkiBundle = "/var/lib/sbctl";
-            };
+            }; */
           })
         ];
       };
