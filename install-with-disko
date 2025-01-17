@@ -4,7 +4,8 @@ set -euo pipefail
 DIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
 
 TARGET_HOST="${1:-}"
-TARGET_USER="${2:-ark}"
+DISK="${2:-}"
+TARGET_USER="${3:-ark}"
 
 if [ "$(id -u)" -eq 0 ]; then
   echo "ERROR! $(basename "${0}") should be run as a regular user"
@@ -16,10 +17,18 @@ if [[ -z "$TARGET_HOST" ]]; then
     exit 1
 fi
 
+if [[ -z "$DISK" ]]; then
+    echo "ERROR! $(basename "${0}") requires a disk as a second argument"
+    exit 1
+fi
+
 if [ ! -e "system/x86_64-linux/${TARGET_HOST}/disks.nix" ]; then
   echo "ERROR! $(basename "${0}") could not find the required system/x86_64-linux/${TARGET_HOST}/disks.nix"
   exit 1
 fi
+
+# Loading Nix-shell with needed packages
+nix-shell -p sbctl
 
 # Check if the machine we're provisioning expects a keyfile to unlock a disk.
 # If it does, generate a new key, and write to a known location.
@@ -44,10 +53,13 @@ if [[ $REPLY =~ ^[Yy]$ ]]; then
 
     # Generate hardware-configuration.nix and copy to our working directory
     sudo nixos-generate-config --root /mnt
-    sudo cp /mnt/etc/nixos/hardware-configuration.nix /home/nixos/nixos-config/system/x86_64-linux/vlw-test-001/hardware-configuration.nix -f
+    sudo cp /mnt/etc/nixos/hardware-configuration.nix /home/nixos/nixos-config/system/x86_64-linux/${TARGET_HOST}/hardware-configuration.nix -f
     sudo rm /mnt/etc/nixos/configuration.nix /mnt/etc/nixos/hardware-configuration.nix
 
     sudo nixos-install --flake ".#${TARGET_HOST}"
+
+    # Activate TPM2 autounlock 
+    sudo systemd-cryptenroll --tpm2-device=auto --tpm2-pcrs=0+7 /dev/${DISK}
 
     # Rsync my nix-config to the target install
     #mkdir -p "/mnt/home/${TARGET_USER}/nixos-config"
