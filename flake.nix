@@ -36,10 +36,6 @@
     nixosConfigurations = {
       vlw-test-001 = libx.mkHost {
         hostname = "vlw-test-001";
-        environment.systemPackages = [
-              # For debugging and troubleshooting Secure Boot.
-              nixpkgs.sbctl
-            ];
       };
       /* setup-secureboot = nixpkgs.lib.nixosSystem {
         modules = [

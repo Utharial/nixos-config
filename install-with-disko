@@ -27,9 +27,6 @@ if [ ! -e "system/x86_64-linux/${TARGET_HOST}/disks.nix" ]; then
   exit 1
 fi
 
-# Loading Nix-shell with needed packages
-nix-shell -p sbctl
-
 # Check if the machine we're provisioning expects a keyfile to unlock a disk.
 # If it does, generate a new key, and write to a known location.
 if grep -q "root.keyfile" "system/x86_64-linux/${TARGET_HOST}/disks.nix"; then

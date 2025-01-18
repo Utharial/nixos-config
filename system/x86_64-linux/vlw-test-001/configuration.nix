@@ -47,6 +47,7 @@
 	    #  wget
 	    vim
 	    git
+			sbctl
 	  ];
 	
 	  # Some programs need SUID wrappers, can be configured further or are
