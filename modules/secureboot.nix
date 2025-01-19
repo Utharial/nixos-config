@@ -1,8 +1,8 @@
 { pkgs, lib, lanzeboote, ... }: {
 
-  modules = [
-     lanzaboote.nixosModules.lanzaboote
-  ];
+  #modules = [
+  #   lanzaboote.nixosModules.lanzaboote
+  #];
 
   boot.loader.systemd-boot.enable = lib.mkForce false;
   boot.lanzaboote = {
