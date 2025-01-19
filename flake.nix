@@ -7,7 +7,7 @@
     nixos-hardware.url = "github:NixOS/nixos-hardware/master";
 
     # Secure boot option with TPM or Yubikey unlock
-     lanzaboote = {
+    lanzaboote = {
       url = github:nix-community/lanzaboote;
       inputs.nixpkgs.follows = "nixpkgs";
     }; 
@@ -66,7 +66,7 @@
       #}; */
     };
     # Custom packages; acessible via 'nix build', 'nix shell', etc
-      packages = libx.forAllSystems (
+    /*   packages = libx.forAllSystems (
         system:
         let
           pkgs = nixpkgs.legacyPackages.${system};
@@ -82,6 +82,6 @@
           pkgs = nixpkgs.legacyPackages.${system};
         in
         import ./shell.nix { inherit pkgs; }
-      );
+      ); */
   };
 }
