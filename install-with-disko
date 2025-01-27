@@ -56,7 +56,7 @@ if [[ $REPLY =~ ^[Yy]$ ]]; then
     sudo nixos-install --flake ".#${TARGET_HOST}"
 
     # Activate TPM2 autounlock 
-    sudo systemd-cryptenroll --tpm2-device=auto --tpm2-pcrs=0+7 /dev/${DISK}
+    #sudo systemd-cryptenroll --tpm2-device=auto --tpm2-pcrs=0+7 /dev/${DISK}
 
     # Rsync my nix-config to the target install
     #mkdir -p "/mnt/home/${TARGET_USER}/nixos-config"
