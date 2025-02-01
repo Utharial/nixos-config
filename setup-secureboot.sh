@@ -15,8 +15,11 @@ VERIFY="$(sbctl verify)>&1"
 # if verify not empty, sign boot files
 if [[ -n "$VERIFY" ]]; then
     for ITEM in $VERIFY; do
-        [[ ${ITEM} =~ (\/boot\/EFI\/[A-Za-z]*\/[A-Za-z0-9-.]*)]]
-        sbctl sign $ITEM
+        [[ ${ITEM} =~ (/boot/EFI/[A-Za-z]*/[A-Za-z0-9-].*.[EFIefi]*)]] && OUTPUT=${BASH_REMATCH} || OUTPUT=
+        
+        if [[ -n $OUTPUT ]]; then
+            sbctl sign $OUTPUT
+        fi
     done
 fi
 
