@@ -17,10 +17,10 @@ if [[ -z "$TARGET_HOST" ]]; then
     exit 1
 fi
 
-if [[ -z "$DISK" ]]; then
-    echo "ERROR! $(basename "${0}") requires a disk as a second argument"
-    exit 1
-fi
+#if [[ -z "$DISK" ]]; then
+#    echo "ERROR! $(basename "${0}") requires a disk as a second argument"
+#    exit 1
+#fi
 
 if [ ! -e "system/x86_64-linux/${TARGET_HOST}/disks.nix" ]; then
   echo "ERROR! $(basename "${0}") could not find the required system/x86_64-linux/${TARGET_HOST}/disks.nix"
@@ -69,5 +69,3 @@ if [[ $REPLY =~ ^[Yy]$ ]]; then
       sudo chmod 0400 /mnt/etc/root.keyfile
     fi
 fi
-
-
