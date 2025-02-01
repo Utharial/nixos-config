@@ -15,7 +15,7 @@ VERIFY="$(sbctl verify)>&1"
 # if verify not empty, sign boot files
 if [[ -n "$VERIFY" ]]; then
     for ITEM in $VERIFY; do
-        [[ ${ITEM} =~ (/boot/EFI/[A-Za-z]*/[A-Za-z0-9-].*.[EFIefi]*)]] && OUTPUT=${BASH_REMATCH} || OUTPUT=
+        [[ ${ITEM} =~ (/boot/EFI/[A-Za-z]*/[A-Za-z0-9-].*.[EFIefi]*) ]] && OUTPUT=${BASH_REMATCH} || OUTPUT=
         
         if [[ -n $OUTPUT ]]; then
             sbctl sign $OUTPUT
@@ -24,4 +24,4 @@ if [[ -n "$VERIFY" ]]; then
 fi
 
 # Activate TPM2 autounlock 
-sudo systemd-cryptenroll --tpm2-device=auto --tpm2-pcrs=0+7 /dev/sda2
+sudo systemd-cryptenroll --tpm2-device=auto --tpm2-pcrs=1+7 /dev/sda2
