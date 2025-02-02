@@ -24,4 +24,4 @@ if [[ -n "$VERIFY" ]]; then
 fi
 
 # Activate TPM2 autounlock 
-sudo systemd-cryptenroll --tpm2-device=auto --tpm2-pcrs=1+7 /dev/sda2
+sudo systemd-cryptenroll --tpm2-device=auto --tpm2-pcrs=0+1+7 /dev/sda2
