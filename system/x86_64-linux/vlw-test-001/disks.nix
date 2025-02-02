@@ -38,31 +38,31 @@
                   type = "btrfs";
                   extraArgs = ["-L" "nixos" "-f"];
                   subvolumes = {
-                    "/root" = {
+                    "@" = {
                       mountpoint = "/";
-                      mountOptions = ["subvol=@" "compress=zstd" "noatime"];
+                      mountOptions = ["compress=zstd" "noatime"];
                     };
-                    "/home" = {
+                    "@home" = {
                       mountpoint = "/home";
-                      mountOptions = ["subvol=@home" "compress=zstd" "noatime"];
+                      mountOptions = ["compress=zstd" "noatime"];
                     };
-                    "/nix" = {
+                    "@nix" = {
                       mountpoint = "/nix";
-                      mountOptions = ["subvol=@nix" "compress=zstd" "noatime"];
+                      mountOptions = ["compress=zstd" "noatime"];
                     };
-                    "/persist" = {
+                    "@persist" = {
                       mountpoint = "/persist";
-                      mountOptions = ["subvol=@persist" "compress=zstd" "noatime"];
+                      mountOptions = ["compress=zstd" "noatime"];
                     };
-                    "/log" = {
+                    "@log" = {
                       mountpoint = "/var/log";
-                      mountOptions = ["subvol=@log" "compress=zstd" "noatime"];
+                      mountOptions = ["compress=zstd" "noatime"];
                     };
-                    "/tmp" = {
+                    "@tmp" = {
                       mountpoint = "/tmp";
-                      mountOptions = ["subvol=@tmp" "compress=zstd" "noatime"];
+                      mountOptions = ["compress=zstd" "noatime"];
                     };
-                    "/swap" = {
+                    "@swap" = {
                       mountpoint = "/swap";
                       swap.swapfile.size = "64G";
                     };
