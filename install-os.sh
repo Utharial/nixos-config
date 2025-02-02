@@ -65,8 +65,9 @@ if [[ $REPLY =~ ^[Yy]$ ]]; then
     # ensure the permissions are set appropriately.
     if [[ -f "/tmp/root.keyfile" ]]; then
       sudo cp /tmp/root.keyfile /mnt/etc/root.keyfile
+      sudo echo $(cat /mnt/etc/root.keyfile)
       sudo chmod 0400 /mnt/etc/root.keyfile
     fi
   
-  echo $(cat /mnt/etc/root.keyfile)
+  
 fi
