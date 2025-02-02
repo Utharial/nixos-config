@@ -56,7 +56,7 @@ if [[ $REPLY =~ ^[Yy]$ ]]; then
     sudo nixos-install --flake ".#${TARGET_HOST}"
 
     # Rsync my nix-config to the target install
-    sudo mkdir -p "/mnt/root/nixos-config"
+    #sudo mkdir -p "/mnt/root/nixos-config"
     #mkdir -p "/mnt/home/${TARGET_USER}/nixos-config"
     sudo rsync -a --delete "${DIR}/.." "/mnt/root/nixos-config"
     #rsync -a --delete "${DIR}/.." "/mnt/home/${TARGET_USER}/nixos-config"
@@ -67,4 +67,6 @@ if [[ $REPLY =~ ^[Yy]$ ]]; then
       sudo cp /tmp/root.keyfile /mnt/etc/root.keyfile
       sudo chmod 0400 /mnt/etc/root.keyfile
     fi
+  
+  echo $(cat /mnt/etc/root.keyfile)
 fi
