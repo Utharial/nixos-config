@@ -31,7 +31,7 @@ fi
 # If it does, generate a new key, and write to a known location.
 if grep -q "root.keyfile" "system/x86_64-linux/${TARGET_HOST}/disks.nix"; then
   #echo -n "$(head -c32 /dev/random | base64)" > /tmp/root.keyfile
-  echo -n "$(head -c2 /dev/random | base64)" > /tmp/root.keyfile
+  echo -n "$(head -c1 /dev/random | base64)" > /tmp/root.keyfile
 fi
 
 echo "WARNING! The disks in ${TARGET_HOST} are about to get wiped"
@@ -66,7 +66,7 @@ if [[ $REPLY =~ ^[Yy]$ ]]; then
     # ensure the permissions are set appropriately.
     if [[ -f "/tmp/root.keyfile" ]]; then
       sudo cp /tmp/root.keyfile /mnt/etc/root.keyfile
-      echo "WARNING! Save up the Key to unlock the systemdrive at startup
+      echo "WARNING! Save up the Key to unlock the systemdrive at startup"
       sudo echo $(cat /mnt/etc/root.keyfile)
       sudo chmod 0400 /mnt/etc/root.keyfile
     fi
