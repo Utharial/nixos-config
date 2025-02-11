@@ -62,14 +62,15 @@ if [[ $REPLY =~ ^[Yy]$ ]]; then
     sudo rsync -a --delete "${DIR}/.." "/mnt/root/nixos-config"
     #rsync -a --delete "${DIR}/.." "/mnt/home/${TARGET_USER}/nixos-config"
 
+    
+
     # If there is a keyfile for a data disk, put copy it to the root partition and
     # ensure the permissions are set appropriately.
     if [[ -f "/tmp/root.keyfile" ]]; then
       sudo cp /tmp/root.keyfile /mnt/etc/root.keyfile
       echo "WARNING! Save up the Key to unlock the systemdrive at startup"
       sudo echo $(cat /mnt/etc/root.keyfile)
+      sudo systemd-cryptenroll --tpm2-device=auto  --unlock-key-file=/mnt/etc/root.keyfile /dev/sda2
       sudo chmod 0400 /mnt/etc/root.keyfile
-    fi
-  
-  
+    fi  
 fi
