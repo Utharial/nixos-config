@@ -3,6 +3,7 @@
 			inputs.disko.nixosModules.disko
 			../../../modules/boot.nix
 	    ./hardware-configuration.nix
+			./systemd-timer.nix
 	  ];
 	
 	  # Bootloader.

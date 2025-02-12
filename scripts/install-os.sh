@@ -22,14 +22,14 @@ fi
 #    exit 1
 #fi
 
-if [ ! -e "../system/x86_64-linux/${TARGET_HOST}/disks.nix" ]; then
+if [ ! -e "system/x86_64-linux/${TARGET_HOST}/disks.nix" ]; then
   echo "ERROR! $(basename "${0}") could not find the required system/x86_64-linux/${TARGET_HOST}/disks.nix"
   exit 1
 fi
 
 # Check if the machine we're provisioning expects a keyfile to unlock a disk.
 # If it does, generate a new key, and write to a known location.
-if grep -q "root.keyfile" "../system/x86_64-linux/${TARGET_HOST}/disks.nix"; then
+if grep -q "root.keyfile" "system/x86_64-linux/${TARGET_HOST}/disks.nix"; then
   #echo -n "$(head -c32 /dev/random | base64)" > /tmp/root.keyfile
   echo -n "$(head -c1 /dev/random | base64)" > /tmp/root.keyfile
 fi
@@ -47,7 +47,7 @@ if [[ $REPLY =~ ^[Yy]$ ]]; then
        --experimental-features "nix-command flakes" \
        -- \
        --mode zap_create_mount \
-        "../system/x86_64-linux/${TARGET_HOST}/disks.nix"
+        "system/x86_64-linux/${TARGET_HOST}/disks.nix"
 
     # Generate hardware-configuration.nix and copy to our working directory
     sudo nixos-generate-config --root /mnt
@@ -57,12 +57,10 @@ if [[ $REPLY =~ ^[Yy]$ ]]; then
     sudo nixos-install --flake ".#${TARGET_HOST}"
 
     # Rsync my nix-config to the target install
-    #sudo mkdir -p "/mnt/root/nixos-config"
-    #mkdir -p "/mnt/home/${TARGET_USER}/nixos-config"
     sudo rsync -a --delete "${DIR}/.." "/mnt/root/nixos-config"
-    #rsync -a --delete "${DIR}/.." "/mnt/home/${TARGET_USER}/nixos-config"
 
-    
+    # Make setup-secureboot-par1 exectubale
+    chmod +x /mnt/root/nixos-config/scripts/setup-secureboot_part1.sh
 
     # If there is a keyfile for a data disk, put copy it to the root partition and
     # ensure the permissions are set appropriately.
