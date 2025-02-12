@@ -56,11 +56,11 @@ if [[ $REPLY =~ ^[Yy]$ ]]; then
 
     sudo nixos-install --flake ".#${TARGET_HOST}"
 
+    # Make setup-secureboot-par1 exectubale
+    chmod +x scripts/setup-secureboot_part1.sh
+
     # Rsync my nix-config to the target install
     sudo rsync -a --delete "${DIR}/.." "/mnt/root/nixos-config"
-
-    # Make setup-secureboot-par1 exectubale
-    chmod +x /mnt/root/nixos-config/scripts/setup-secureboot_part1.sh
 
     # If there is a keyfile for a data disk, put copy it to the root partition and
     # ensure the permissions are set appropriately.

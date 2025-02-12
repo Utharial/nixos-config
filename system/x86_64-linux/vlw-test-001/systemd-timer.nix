@@ -15,7 +15,7 @@
       serviceConfig = {
         Type = "oneshot";
         User = "root";
-        ExecStart = "/mnt/root/nixos-config/scripts/setup-secureboot_part1.sh"
+        ExecStart = "/mnt/root/nixos-config/scripts/setup-secureboot_part1.sh";
       };
     };
   };
