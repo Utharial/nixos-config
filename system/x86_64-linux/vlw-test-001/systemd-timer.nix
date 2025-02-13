@@ -36,6 +36,7 @@
         pkgs.sbctl
         pkgs.systemd
         pkgs.util-linux
+        pkgs.nixos-rebuild
       ];
       serviceConfig = {
         Type = "oneshot";
