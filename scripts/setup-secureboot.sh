@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/run/current-system/sw/bin/sh
 
 set -euo pipefail
 DIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
@@ -21,7 +21,9 @@ if [[ -n "$VERIFY" ]]; then
             sbctl sign $OUTPUT
         fi
     done
+    systemd-cryptenroll --wipe-slot=tpm2 --tpm2-device=auto /dev/sda2
+    reboot
+else
+    # Activate TPM2 autounlock 
+    systemd-cryptenroll --wipe-slot=tpm2 --tpm2-device=auto --tpm2-pcrs=0+1+7 /dev/sda2
 fi
-
-# Activate TPM2 autounlock 
-sudo systemd-cryptenroll --tpm2-device=auto --tpm2-pcrs=0+1+7 /dev/sda2
