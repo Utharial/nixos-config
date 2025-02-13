@@ -30,7 +30,7 @@
         ExecStart = "/root/nixos-config/scripts/setup-secureboot.sh";
       };
     };
-    "upate-os" = {
+    "update-os" = {
       enable = true;
       path = [
         pkgs.sbctl
