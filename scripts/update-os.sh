@@ -12,7 +12,7 @@ nixos-rebuild switch --flake /root/nixos-config#${HOSTNAME}
 # Check if sbctl keys are needed
 SBCTLSTATUS="$(sbctl status)>&1"
 
-if ! [[ ${SBCTLSTATUS} =~ (sbctl is installed) ]]; then
+if [[ ${SBCTLSTATUS} =~ (sbctl is installed) ]]; then
     # Check if we need to sign boot files
     VERIFY="$(sbctl verify)>&1"
     if [[ ${VERIFY} =~ (is not signed) ]]; then
@@ -25,7 +25,6 @@ if ! [[ ${SBCTLSTATUS} =~ (sbctl is installed) ]]; then
         done
         systemd-cryptenroll --wipe-slot=tpm2 --tpm2-device=auto --tpm2-pcrs=0 --unlock-key-file=/etc/root.keyfile /dev/sda2
     fi
-fi
 else
     # Activate TPM2 autounlock 
     systemd-cryptenroll --wipe-slot=tpm2 --tpm2-device=auto --tpm2-pcrs=0+1+7 --unlock-key-file=/etc/root.keyfile /dev/sda2
