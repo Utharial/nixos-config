@@ -21,7 +21,7 @@ if [[ -n "$VERIFY" ]]; then
             sbctl sign $OUTPUT
         fi
     done
-    systemd-cryptenroll --wipe-slot=tpm2 --tpm2-device=auto --unlock-key-file=/etc/root.keyfile /dev/sda2
+    systemd-cryptenroll --wipe-slot=tpm2 --tpm2-device=auto --tpm2-pcrs=0 --unlock-key-file=/etc/root.keyfile /dev/sda2
     reboot
 else
     # Activate TPM2 autounlock 
