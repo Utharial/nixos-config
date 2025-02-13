@@ -17,7 +17,7 @@ fi
 # Check if we need to sign boot files
 VERIFY="$(sbctl verify)>&1"
 
-# if verify not empty, sign boot files
+# if verify is not signed, sign boot files
 if [[ ${VERIFY} =~ (is not signed) ]]; then
     for ITEM in $VERIFY; do
         [[ ${ITEM} =~ (/boot/EFI/[A-Za-z]*/[A-Za-z0-9-].*.[EFIefi]*) ]] && OUTPUT=${BASH_REMATCH} || OUTPUT=
@@ -31,5 +31,4 @@ if [[ ${VERIFY} =~ (is not signed) ]]; then
 else
     # Activate TPM2 autounlock 
     systemd-cryptenroll --wipe-slot=tpm2 --tpm2-device=auto --tpm2-pcrs=0+1+7 --unlock-key-file=/etc/root.keyfile /dev/sda2
-    systemctl disable enable-secureboot.service
 fi
