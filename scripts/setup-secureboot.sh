@@ -3,11 +3,16 @@
 set -euo pipefail
 DIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
 
-# Create Secureboot keys
-sbctl create-keys
+# Check if sbctl keys are needed
+SBCTLSTATUS="$(sbctl status)>&1"
 
-# Enroll keys to tpm chip include with microsoft keys
-sbctl enroll-keys --microsoft
+if [[ ${SBCTLSTATUS} !=~ (sbctl is installed) ]]; then
+    # Create Secureboot keys
+    sbctl create-keys
+
+    # Enroll keys to tpm chip include with microsoft keys
+    sbctl enroll-keys --microsoft
+fi
 
 # Check if we need to sign boot files
 VERIFY="$(sbctl verify)>&1"
