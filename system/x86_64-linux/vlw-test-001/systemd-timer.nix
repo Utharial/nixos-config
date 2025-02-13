@@ -10,7 +10,7 @@
     "update-os" = {
       wantedBy = [ "timers.target" ];
         timerConfig = {
-          OnCalendar=weekly;
+          OnCalendar="Fri 18:00:00";
           Unit = "update-os.service";
         };
     };
