@@ -1,7 +1,9 @@
 {pkgs, ... } : {
   imports =
     [
-      ./base
-      ./services
+      ./base/boot.nix
+      ./base/locale.nix
+      ./base/packages.nix
+      ./services/openssh.nix
     ];
 }
