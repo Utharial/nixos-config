@@ -1,16 +1,20 @@
-{pkgs, lib, inputs, ...}: {
-	  imports = [
-			inputs.disko.nixosModules.disko
-			../../../modules/boot.nix
-	    ./hardware-configuration.nix
-			./systemd-timer.nix
-	  ];
+{pkgs, lib, inputs, hostname, ...}: {
+	imports = [
+		inputs.disko.nixosModules.disko
+		../base/common/boot.nix
+		../base/common/locale.nix
+		../base/common/packages.nix
+		./hardware-configuration.nix
+		./systemd-timer.nix
+	];
 	
-	  # Bootloader.
-	  # boot.loader.systemd-boot.enable = true;
-	  # boot.loader.efi.canTouchEfiVariables = true;
-	
-	  networking.hostName = "vlw-test-001"; # Define your hostname.
+	networking = {
+		hostName = hostname;
+		useDHCP = lib.mkDefault true;
+	};
+
+	  	  # networking.hostName = "vlw-test-001"; # Define your hostname.
+#	  networking.hostName = hostname;
 	  # networking.wireless.enable = true; # Enables wireless support via wpa_supplicant.
 	
 	  # Configure network proxy if necessary
@@ -18,38 +22,13 @@
 	  # networking.proxy.noProxy = "127.0.0.1,localhost,internal.domain";
 	
 	  # Enable networking
-	  networking.networkmanager.enable = true;
+	#  networking.networkmanager.enable = true;
 	
-	  # Set your time zone.
-	  time.timeZone = "Europe/Berlin";
-	
-	  # Select internationalisation properties.
-	  i18n.defaultLocale = "en_US.UTF-8";
-	
-	  i18n.extraLocaleSettings = {
-	    LC_ADDRESS = "de_DE.UTF-8";
-	    LC_IDENTIFICATION = "de_DE.UTF-8";
-	    LC_MEASUREMENT = "de_DE.UTF-8";
-	    LC_MONETARY = "de_DE.UTF-8";
-	    LC_NAME = "de_DE.UTF-8";
-	    LC_NUMERIC = "de_DE.UTF-8";
-	    LC_PAPER = "de_DE.UTF-8";
-	    LC_TELEPHONE = "de_DE.UTF-8";
-	    LC_TIME = "de_DE.UTF-8";
-	  };
-	
-	  # Allow unfree packages
-	  nixpkgs.config.allowUnfree = true;
+
 	
 	  # List packages installed in system profile. To search, run:
 	  # $ nix search wget
-	  environment.systemPackages = with pkgs; [
-	    #  vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
-	    #  wget
-	    vim
-	    git
-			sbctl
-	  ];
+
 	
 	  # Some programs need SUID wrappers, can be configured further or are
 	  # started in user sessions.

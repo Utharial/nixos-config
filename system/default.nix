@@ -15,7 +15,7 @@
   imports =
     [
       (modulesPath + "/installer/scan/not-detected.nix")
-      (./. + "/x86_64-linux/${hostname}/configuration.nix")
+      (./. + "/x86_64-linux/${hostname}/base/configuration.nix")
       #(./. + "/x86_x64-linux/${hostname}/hardware-config.nix")
 
       #./common/base
@@ -25,12 +25,12 @@
     # Include desktop config if a desktop is defined
     #++ lib.optional (builtins.isString desktop) ./common/desktop;
 
-  nixpkgs = {
-    config = {
-      allowUnfree = true;
+  #nixpkgs = {
+  #  config = {
+  #    allowUnfree = true;
       #joypixels.acceptLicense = true;
-    };
-  };
+  #  };
+  #};
 
   nix = {
     # This will add each flake input as a registry
