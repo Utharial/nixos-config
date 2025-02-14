@@ -1,9 +1,10 @@
 {pkgs, lib, inputs, hostname, ...}: {
 	imports = [
 		inputs.disko.nixosModules.disko
-		../../../common/base/boot.nix
-		../../../common/base/locale.nix
-		../../../common/base/packages.nix
+		../../common
+#		../../common/base/boot.nix
+#		../../common/base/locale.nix
+#		../../common/base/packages.nix
 		./hardware-configuration.nix
 		./systemd-timer.nix
 	];
@@ -11,6 +12,14 @@
 	networking = {
 		hostName = hostname;
 		useDHCP = lib.mkDefault true;
+	};
+
+	users.users = {
+		ark = {
+			isNormalUser = true;
+			home = "/home/ark";
+			extraGroups = [ "wheel" ];
+		};
 	};
 
 	  	  # networking.hostName = "vlw-test-001"; # Define your hostname.
@@ -39,13 +48,6 @@
 	  # };
 	
 	  # List services that you want to enable:
-	
-	  # Enable the OpenSSH daemon.
-	  services.openssh = {
-	    enable = true;
-	    settings.PermitRootLogin = "no";
-	    allowSFTP = true;
-	  };
 	
 	  # Open ports in the firewall.
 	  # networking.firewall.allowedTCPPorts = [ ... ];
