@@ -1,9 +1,9 @@
 {pkgs, lib, inputs, hostname, ...}: {
 	imports = [
 		inputs.disko.nixosModules.disko
-		../common/base/boot.nix
-		../common/base/locale.nix
-		../common/base/packages.nix
+		../../../common/base/boot.nix
+		../../../common/base/locale.nix
+		../../../common/base/packages.nix
 		./hardware-configuration.nix
 		./systemd-timer.nix
 	];
