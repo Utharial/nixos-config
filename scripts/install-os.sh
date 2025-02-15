@@ -67,7 +67,7 @@ if [[ $REPLY =~ ^[Yy]$ ]]; then
       cp /tmp/root.keyfile /mnt/etc/root.keyfile
       #echo "WARNING! Save up the Key to unlock the systemdrive at startup"
       read -p "WARNING! Save up the Key: $(echo $(cat /mnt/etc/root.keyfile)) to unlock the systemdrive at startup, press any key to continune" -n 1 -r
-      systemd-cryptenroll --tpm2-device=auto  --unlock-key-file=/mnt/etc/root.keyfile ${DISK}
+      systemd-cryptenroll --tpm2-device=auto  --unlock-key-file=/mnt/etc/root.keyfile ${DISK}2
       chmod 0400 /mnt/etc/root.keyfile
     fi  
     reboot

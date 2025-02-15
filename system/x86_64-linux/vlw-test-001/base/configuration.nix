@@ -14,6 +14,7 @@
 	users.users = {
 		ark = {
 			isNormalUser = true;
+			mutableUsers = true;
 			home = "/home/ark";
 			extraGroups = [ "wheel" ];
 			openssh.authorizedKeys.keys = [

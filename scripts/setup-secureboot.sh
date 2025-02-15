@@ -28,9 +28,9 @@ if [[ ${VERIFY} =~ (is not signed) ]]; then
             sbctl sign $OUTPUT
         fi
     done
-    systemd-cryptenroll --wipe-slot=tpm2 --tpm2-device=auto --tpm2-pcrs=0 --unlock-key-file=/etc/root.keyfile ${DISK}
+    systemd-cryptenroll --wipe-slot=tpm2 --tpm2-device=auto --tpm2-pcrs=0 --unlock-key-file=/etc/root.keyfile ${DISK}2
     reboot
 else
     # Activate TPM2 autounlock 
-    systemd-cryptenroll --wipe-slot=tpm2 --tpm2-device=auto --tpm2-pcrs=0+1+7 --unlock-key-file=/etc/root.keyfile ${DISK} 
+    systemd-cryptenroll --wipe-slot=tpm2 --tpm2-device=auto --tpm2-pcrs=0+1+7 --unlock-key-file=/etc/root.keyfile ${DISK}2
 fi
