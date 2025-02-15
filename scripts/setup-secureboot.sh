@@ -6,6 +6,7 @@ DIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
 # Check if sbctl keys are needed
 SBCTLSTATUS="$(sbctl status)>&1"
 
+USER="$(grep -Eio 'username = "[A-Za-z0-9]*"' "flake.nix" | grep -Eio "[A-Za-z0-9]*" | grep -v username)"
 DISK="$(grep -Eio "/dev/[a-zA-Z0-9]*" "home/${USER}/${HOSTNAME}/base/disks.nix")"
 
 if ! [[ ${SBCTLSTATUS} =~ (sbctl is installed) ]]; then
