@@ -22,6 +22,7 @@
           stateVersion
           hostname
           desktop
+          username
           ;
       };
       modules = [
