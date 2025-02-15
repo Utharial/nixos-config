@@ -69,6 +69,11 @@ if [[ $REPLY =~ ^[Yy]$ ]]; then
       read -p "WARNING! Save up the Key: $(echo $(cat /mnt/etc/root.keyfile)) to unlock the systemdrive at startup, press any key to continune" -n 1 -r
       systemd-cryptenroll --tpm2-device=auto  --unlock-key-file=/mnt/etc/root.keyfile ${DISK}2
       chmod 0400 /mnt/etc/root.keyfile
-    fi  
+    fi
+
+    # Create password for user
+    echo "Enter password for User "${USER}""
+    nixos-enter --root /mnt -c "passwd "${USER}""
+
     reboot
 fi
