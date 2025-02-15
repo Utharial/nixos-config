@@ -27,6 +27,9 @@ if grep -q "root.keyfile" "system/x86_64-linux/${TARGET_HOST}/base/disks.nix"; t
   echo -n "$(head -c1 /dev/random | base64)" > /tmp/root.keyfile
 fi
 
+# Getting disk for autounlock
+DISK="$(grep -Eio "/dev/[a-zA-Z0-9]*" "system/x86_64-linux/${TARGET_HOST}/base/disks.nix")"
+
 echo "WARNING! The disks in ${TARGET_HOST} are about to get wiped"
 echo "         NixOS will be re-installed"
 echo "         This is a destructive operation"
@@ -53,15 +56,15 @@ if [[ $REPLY =~ ^[Yy]$ ]]; then
 
     # Rsync my nix-config to the target install
     rsync -a --delete "${DIR}/.." "/mnt/root/nixos-config"
+    rsync -a --delete "${DIR}/.." "/mnt/home/*/nixos-config"
 
     # If there is a keyfile for a data disk, put copy it to the root partition and
     # ensure the permissions are set appropriately.
     if [[ -f "/tmp/root.keyfile" ]]; then
       cp /tmp/root.keyfile /mnt/etc/root.keyfile
       #echo "WARNING! Save up the Key to unlock the systemdrive at startup"
-      echo $(cat /mnt/etc/root.keyfile)
-      read -p "WARNING! Save up the Key to unlock the systemdrive at startup, press any key to continune" -n 1 -r
-      systemd-cryptenroll --tpm2-device=auto  --unlock-key-file=/mnt/etc/root.keyfile /dev/sda2
+      read -p "WARNING! Save up the Key: $(echo $(cat /mnt/etc/root.keyfile)) to unlock the systemdrive at startup, press any key to continune" -n 1 -r
+      systemd-cryptenroll --tpm2-device=auto  --unlock-key-file=/mnt/etc/root.keyfile ${DISK}
       chmod 0400 /mnt/etc/root.keyfile
     fi  
     reboot

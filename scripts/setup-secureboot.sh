@@ -6,6 +6,8 @@ DIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
 # Check if sbctl keys are needed
 SBCTLSTATUS="$(sbctl status)>&1"
 
+DISK="$(grep -Eio "/dev/[a-zA-Z0-9]*" "home/${USER}/${HOSTNAME}/base/disks.nix")"
+
 if ! [[ ${SBCTLSTATUS} =~ (sbctl is installed) ]]; then
     # Create Secureboot keys
     sbctl create-keys
@@ -26,9 +28,9 @@ if [[ ${VERIFY} =~ (is not signed) ]]; then
             sbctl sign $OUTPUT
         fi
     done
-    systemd-cryptenroll --wipe-slot=tpm2 --tpm2-device=auto --tpm2-pcrs=0 --unlock-key-file=/etc/root.keyfile /dev/sda2
+    systemd-cryptenroll --wipe-slot=tpm2 --tpm2-device=auto --tpm2-pcrs=0 --unlock-key-file=/etc/root.keyfile ${DISK}
     reboot
 else
     # Activate TPM2 autounlock 
-    systemd-cryptenroll --wipe-slot=tpm2 --tpm2-device=auto --tpm2-pcrs=0+1+7 --unlock-key-file=/etc/root.keyfile /dev/sda2
+    systemd-cryptenroll --wipe-slot=tpm2 --tpm2-device=auto --tpm2-pcrs=0+1+7 --unlock-key-file=/etc/root.keyfile ${DISK} 
 fi
