@@ -16,6 +16,9 @@
 			isNormalUser = true;
 			home = "/home/ark";
 			extraGroups = [ "wheel" ];
+			openssh.authorizedKeys.keys = [
+				ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAICe0qxF6g+aGx/VjCEGhJBue/urSRQFcSXs3QV8fT0WI username
+			];
 		};
 	};
 

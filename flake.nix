@@ -14,7 +14,7 @@
     inherit (self) outputs;
 
       stateVersion = "24.11";
-      username = "ark";
+      
 
       libx = import ./lib {
         inherit
@@ -30,6 +30,7 @@
     nixosConfigurations = {
       vlw-test-001 = libx.mkHost {
         hostname = "vlw-test-001";
+        username = "ark";
       };
     };
   };

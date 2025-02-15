@@ -4,8 +4,6 @@ set -euo pipefail
 DIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
 
 TARGET_HOST="${1:-}"
-DISK="${2:-}"
-TARGET_USER="${3:-ark}"
 
 if [ "$(id -u)" != 0 ]; then
   echo "ERROR! $(basename "${0}") should be run as a regular user"
@@ -16,11 +14,6 @@ if [[ -z "$TARGET_HOST" ]]; then
     echo "ERROR! $(basename "${0}") requires a hostname as the first argument"
     exit 1
 fi
-
-#if [[ -z "$DISK" ]]; then
-#    echo "ERROR! $(basename "${0}") requires a disk as a second argument"
-#    exit 1
-#fi
 
 if [ ! -e "system/x86_64-linux/${TARGET_HOST}/base/disks.nix" ]; then
   echo "ERROR! $(basename "${0}") could not find the required system/x86_64-linux/${TARGET_HOST}/base/disks.nix"
@@ -65,9 +58,11 @@ if [[ $REPLY =~ ^[Yy]$ ]]; then
     # ensure the permissions are set appropriately.
     if [[ -f "/tmp/root.keyfile" ]]; then
       cp /tmp/root.keyfile /mnt/etc/root.keyfile
-      echo "WARNING! Save up the Key to unlock the systemdrive at startup"
+      read -p "WARNING! Save up the Key to unlock the systemdrive at startup, press any key to continune" -n 1 -r
+      #echo "WARNING! Save up the Key to unlock the systemdrive at startup"
       echo $(cat /mnt/etc/root.keyfile)
       systemd-cryptenroll --tpm2-device=auto  --unlock-key-file=/mnt/etc/root.keyfile /dev/sda2
       chmod 0400 /mnt/etc/root.keyfile
     fi  
+    reboot
 fi
