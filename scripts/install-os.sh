@@ -27,6 +27,9 @@ if grep -q "root.keyfile" "system/x86_64-linux/${TARGET_HOST}/base/disks.nix"; t
   echo -n "$(head -c1 /dev/random | base64)" > /tmp/root.keyfile
 fi
 
+# Getting user for rsync
+USER="$(grep -Eio 'username = "[A-Za-z0-9]*"' "flake.nix" | grep -Eio "[A-Za-z0-9]*" | grep -v username)"
+
 # Getting disk for autounlock
 DISK="$(grep -Eio "/dev/[a-zA-Z0-9]*" "system/x86_64-linux/${TARGET_HOST}/base/disks.nix")"
 
@@ -55,8 +58,8 @@ if [[ $REPLY =~ ^[Yy]$ ]]; then
     chmod +x scripts/update-os.sh
 
     # Rsync my nix-config to the target install
-    rsync -a --delete "${DIR}/.." "/mnt/root/nixos-config"
-    rsync -a --delete "${DIR}/.." "/mnt/home/*/nixos-config"
+    #rsync -a --delete "${DIR}/.." "/mnt/root/nixos-config"
+    rsync -a --delete "${DIR}/.." "/mnt/home/${USER}/nixos-config"
 
     # If there is a keyfile for a data disk, put copy it to the root partition and
     # ensure the permissions are set appropriately.

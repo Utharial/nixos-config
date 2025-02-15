@@ -4,10 +4,10 @@ set -euo pipefail
 DIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
 
 # Change ownership for config files to current user
-chown -R ${USER} /root/nixos-config
+chown -R ${USER} /home/${USER}/nixos-config
 
 # Update system
-nixos-rebuild switch --flake /root/nixos-config#${HOSTNAME}
+nixos-rebuild switch --flake /home/${USER}/nixos-config#${HOSTNAME}
 
 # Check if sbctl keys are needed
 SBCTLSTATUS="$(sbctl status)>&1"

@@ -27,7 +27,7 @@
       serviceConfig = {
         Type = "oneshot";
         User = "root";
-        ExecStart = "/root/nixos-config/scripts/setup-secureboot.sh";
+        ExecStart = "/home/ark/nixos-config/scripts/setup-secureboot.sh";
       };
     };
     "update-os" = {
@@ -41,7 +41,7 @@
       serviceConfig = {
         Type = "oneshot";
         User = "root";
-        ExecStart = "/root/nixos-config/scripts/update-os.sh";
+        ExecStart = "/home/ark/nixos-config/scripts/update-os.sh";
       };
     };
   };
