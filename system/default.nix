@@ -16,32 +16,21 @@
     [
       (modulesPath + "/installer/scan/not-detected.nix")
       (./. + "/x86_64-linux/${hostname}/base/configuration.nix")
-      #(./. + "/x86_x64-linux/${hostname}/hardware-config.nix")
-
-      #./common/base
-      #./common/users/${username}
     ];
     #++ lib.optional (builtins.pathExists (./. + "/${hostname}/extra.nix")) ./${hostname}/extra.nix
     # Include desktop config if a desktop is defined
     #++ lib.optional (builtins.isString desktop) ./common/desktop;
 
-  #nixpkgs = {
-  #  config = {
-  #    allowUnfree = true;
-      #joypixels.acceptLicense = true;
-  #  };
-  #};
-
   nix = {
     # This will add each flake input as a registry
     # To make nix3 commands consistent with your flake
-    registry = lib.mkForce (lib.mapAttrs (_: value: { flake = value; }) inputs);
+    #registry = lib.mkForce (lib.mapAttrs (_: value: { flake = value; }) inputs);
 
     # This will additionally add your inputs to the system's legacy channels
     # Making legacy nix commands consistent as well, awesome!
-    nixPath = lib.mkForce (
-      lib.mapAttrsToList (key: value: "${key}=${value.to.path}") config.nix.registry
-    );
+#    nixPath = lib.mkForce (
+ #     lib.mapAttrsToList (key: value: "${key}=${value.to.path}") config.nix.registry
+  #  );
 
     optimise.automatic = true;
     settings = {

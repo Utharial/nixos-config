@@ -25,7 +25,6 @@
           ;
       };
       modules = [
-        #inputs.lanzaboote.nixosModules.lanzaboote
         ../system
       ];
     };
