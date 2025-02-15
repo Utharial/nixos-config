@@ -58,9 +58,9 @@ if [[ $REPLY =~ ^[Yy]$ ]]; then
     # ensure the permissions are set appropriately.
     if [[ -f "/tmp/root.keyfile" ]]; then
       cp /tmp/root.keyfile /mnt/etc/root.keyfile
-      read -p "WARNING! Save up the Key to unlock the systemdrive at startup, press any key to continune" -n 1 -r
       #echo "WARNING! Save up the Key to unlock the systemdrive at startup"
       echo $(cat /mnt/etc/root.keyfile)
+      read -p "WARNING! Save up the Key to unlock the systemdrive at startup, press any key to continune" -n 1 -r
       systemd-cryptenroll --tpm2-device=auto  --unlock-key-file=/mnt/etc/root.keyfile /dev/sda2
       chmod 0400 /mnt/etc/root.keyfile
     fi  
