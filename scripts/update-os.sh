@@ -3,7 +3,7 @@
 set -euo pipefail
 DIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
 
-USER="$(grep -Eio 'username = "[A-Za-z0-9]*"' "flake.nix" | grep -Eio "[A-Za-z0-9]*" | grep -v username)"
+USER="$(ls /home)"
 # Change ownership for config files to current user
 chown -R ${USER} /home/${USER}/nixos-config
 
