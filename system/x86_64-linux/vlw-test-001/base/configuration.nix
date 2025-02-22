@@ -2,6 +2,7 @@
 	imports = [
 		inputs.disko.nixosModules.disko
 		../../common
+		../containers
 		./hardware-configuration.nix
 		./systemd-timer.nix
 	];
@@ -9,6 +10,7 @@
 	networking = {
 		hostName = hostname;
 		useDHCP = lib.mkDefault true;
+		firewall.allowedTCPPorts = [ 80 ];
 	};
 
 	users.users = {
@@ -26,7 +28,6 @@
 	  # List services that you want to enable:
 	
 	  # Open ports in the firewall.
-	  # networking.firewall.allowedTCPPorts = [ ... ];
 	  # networking.firewall.allowedUDPPorts = [ ... ];
 	  # Or disable the firewall altogether.
 	  # networking.firewall.enable = false;
