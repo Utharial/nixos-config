@@ -6,7 +6,7 @@ DIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
 TARGET_HOST="${1:-}"
 
 if [ "$(id -u)" != 0 ]; then
-  echo "ERROR! $(basename "${0}") should be run as a regular user"
+  echo "ERROR! $(basename "${0}") should be run as sudo user"
   exit 1
 fi
 

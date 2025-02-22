@@ -7,7 +7,7 @@ DIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
 SBCTLSTATUS="$(sbctl status)>&1"
 
 USER="$(ls /home)"
-DISK="$(grep -Eio "/dev/[a-zA-Z0-9]*" "home/${USER}/nixos-config/system/x86_64-linux/${HOSTNAME}/base/disks.nix")"
+DISK="$(grep -Eio "/dev/[a-zA-Z0-9]*" "/home/${USER}/nixos-config/system/x86_64-linux/${HOSTNAME}/base/disks.nix")"
 
 if ! [[ ${SBCTLSTATUS} =~ (sbctl is installed) ]]; then
     # Create Secureboot keys

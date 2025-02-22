@@ -7,7 +7,7 @@ USER="$(ls /home)"
 # Change ownership for config files to current user
 chown -R ${USER} /home/${USER}/nixos-config
 
-DISK="$(grep -Eio "/dev/[a-zA-Z0-9]*" "home/${USER}/nixos-config/system/x86_64-linux/${HOSTNAME}/base/disks.nix")"
+DISK="$(grep -Eio "/dev/[a-zA-Z0-9]*" "/home/${USER}/nixos-config/system/x86_64-linux/${HOSTNAME}/base/disks.nix")"
 
 # Update system
 nixos-rebuild switch --flake /home/${USER}/nixos-config#${HOSTNAME}
