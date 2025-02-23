@@ -56,6 +56,8 @@
           locations."/" = {
             #tryFiles = "$uri $uri/ /index.html";
           };
+          locations."/boot" = {
+          };
         };
       };
 
