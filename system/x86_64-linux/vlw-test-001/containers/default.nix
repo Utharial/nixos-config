@@ -54,7 +54,7 @@
         virtualHosts."localhost" = {
           root = "/var/www";
           locations."/" = {
-            tryFiles = "$uri $uri/ /index.html";
+            #tryFiles = "$uri $uri/ /index.html";
           };
         };
       };
