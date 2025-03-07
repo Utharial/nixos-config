@@ -23,8 +23,8 @@ fi
 # Check if the machine we're provisioning expects a keyfile to unlock a disk.
 # If it does, generate a new key, and write to a known location.
 if grep -q "root.keyfile" "system/x86_64-linux/${TARGET_HOST}/base/disks.nix"; then
-  #echo -n "$(head -c32 /dev/random | base64)" > /tmp/root.keyfile
-  echo -n "$(head -c1 /dev/random | base64)" > /tmp/root.keyfile
+  echo -n "$(head -c32 /dev/random | base64)" > /tmp/root.keyfile
+  #echo -n "$(head -c1 /dev/random | base64)" > /tmp/root.keyfile
 fi
 
 # Getting user for rsync
