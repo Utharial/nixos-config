@@ -65,15 +65,11 @@
                       mountpoint = "/tmp";
                       mountOptions = ["compress=zstd" "noatime"];
                     };
-/*                     "@swap" = {
+                    "@swap" = {
                       mountpoint = "/swap";
-                      swap.swapfile.size = "64G";
-                    }; */
+                      mountOptions = ["noatime"];
+                    }; 
                   };
-                  swap = {
-                    swapfile = "/swapfile";
-                    size = "8G"
-                  }
                 };
               };
             };
