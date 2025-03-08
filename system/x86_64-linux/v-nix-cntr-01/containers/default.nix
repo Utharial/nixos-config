@@ -16,6 +16,9 @@
         unifi
       ];
 
+      # Allow unfree packages
+      config.allowUnfree = true;
+
       services.unifi = {
         enable = true;
         openFirewall = true;
