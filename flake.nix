@@ -31,6 +31,9 @@
       vlw-test-001 = libx.mkHost {
         hostname = "vlw-test-001";
       };
+      v-nix-cntr-01 = libx.mkHost {
+        hostname = "v-nix-cntr-01";
+      };
     };
   };
 }
