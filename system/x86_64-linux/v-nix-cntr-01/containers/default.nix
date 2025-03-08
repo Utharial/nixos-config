@@ -18,7 +18,7 @@
 
       services.unifi = {
         enable = true;
-        openFirewall = true
+        openFirewall = true;
       };
 
       networking.firewall = {
