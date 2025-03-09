@@ -2,7 +2,7 @@
 	imports = [
 		inputs.disko.nixosModules.disko
 		../../common
-		../containers
+		#../containers
 		./hardware-configuration.nix
 		./systemd-timer.nix
 	];
